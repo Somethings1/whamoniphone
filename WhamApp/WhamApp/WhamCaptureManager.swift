@@ -1,0 +1,156 @@
+//
+//  WhamCaptureManager.swift
+//  WhamApp
+//
+//  Created by admin on 20/3/26.
+//
+
+import AVFoundation
+import CoreMotion
+import UIKit
+
+class WhamCaptureManager: NSObject, ObservableObject, AVCaptureFileOutputRecordingDelegate {
+    // --- Các thành phần hệ thống ---
+    let session = AVCaptureSession()
+    private let movieOutput = AVCaptureMovieFileOutput()
+    private let motionManager = CMMotionManager()
+    
+    // --- Các biến trạng thái để UI quan sát ---
+    @Published var isRecording = false
+    @Published var lastThumbnail: UIImage?
+    @Published var recordedSeconds: Int = 0
+    
+    private var timer: Timer?
+    private var currentID: UUID?
+    private var gyroData: [[String: Any]] = []
+
+    override init() {
+        super.init()
+        setupSession() // Hàm này đây chứ đâu!
+        loadLatestThumbnail() // Lục lại quá khứ
+    }
+
+    // 1. THIẾT LẬP CAMERA (Hàm mày bị thiếu đây)
+    private func setupSession() {
+        guard let device = AVCaptureDevice.default(.builtInWideAngleCamera, for: .video, position: .back),
+              let input = try? AVCaptureDeviceInput(device: device) else {
+            print("❌ Không tìm thấy camera")
+            return
+        }
+        
+        session.beginConfiguration()
+        if session.canAddInput(input) { session.addInput(input) }
+        if session.canAddOutput(movieOutput) { session.addOutput(movieOutput) }
+        session.commitConfiguration()
+        
+        // Chạy session ở thread ngầm cho đỡ lag UI
+        DispatchQueue.global(qos: .userInitiated).async {
+            self.session.startRunning()
+        }
+    }
+
+    // 2. LỤC LẠI VIDEO CŨ ĐỂ HIỆN NÚT LIB
+    private func loadLatestThumbnail() {
+        let docs = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0]
+        do {
+            let files = try FileManager.default.contentsOfDirectory(at: docs, includingPropertiesForKeys: [.creationDateKey])
+            let sortedVideos = files.filter { $0.pathExtension == "mp4" }
+                .sorted { (url1, url2) -> Bool in
+                    let date1 = (try? url1.resourceValues(forKeys: [.creationDateKey]))?.creationDate ?? Date.distantPast
+                    let date2 = (try? url2.resourceValues(forKeys: [.creationDateKey]))?.creationDate ?? Date.distantPast
+                    return date1 > date2
+                }
+            
+            if let latestVideo = sortedVideos.first {
+                generateThumbnail(for: latestVideo)
+            }
+        } catch {
+            print("⚠️ Lỗi load video cũ: \(error)")
+        }
+    }
+
+    // 3. ĐIỀU KHIỂN QUAY
+    func toggleRecording() {
+        if isRecording { stop() } else { start() }
+    }
+
+    private func start() {
+        let id = UUID()
+        currentID = id
+        gyroData.removeAll()
+        recordedSeconds = 0
+        isRecording = true
+        
+        // Bật đồng hồ đếm giây
+        timer = Timer.scheduledTimer(withTimeInterval: 1.0, repeats: true) { _ in
+            self.recordedSeconds += 1
+        }
+        
+        // Bật cảm biến Gyro (Vận tốc góc phục vụ WHAM)
+        if motionManager.isGyroAvailable {
+            motionManager.gyroUpdateInterval = 1.0 / 60.0
+            motionManager.startGyroUpdates(to: .main) { data, _ in
+                guard let data = data else { return }
+                let frame: [String: Any] = [
+                    "t": data.timestamp,
+                    "x": data.rotationRate.x,
+                    "y": data.rotationRate.y,
+                    "z": data.rotationRate.z
+                ]
+                self.gyroData.append(frame)
+            }
+        }
+        
+        let url = getURL(id: id, ext: "mp4")
+        movieOutput.startRecording(to: url, recordingDelegate: self)
+    }
+
+    private func stop() {
+        movieOutput.stopRecording()
+        motionManager.stopGyroUpdates()
+        timer?.invalidate()
+        timer = nil
+        if let id = currentID { saveJSON(id: id) }
+        isRecording = false
+    }
+
+    // 4. TIỆN ÍCH DỮ LIỆU
+    func formattedTime() -> String {
+        let minutes = recordedSeconds / 60
+        let seconds = recordedSeconds % 60
+        return String(format: "%02d:%02d", minutes, seconds)
+    }
+
+    private func saveJSON(id: UUID) {
+        let url = getURL(id: id, ext: "json")
+        if let data = try? JSONSerialization.data(withJSONObject: gyroData, options: .prettyPrinted) {
+            try? data.write(to: url)
+            print("✅ Đã lưu \(gyroData.count) frames Gyro cho \(id.uuidString)")
+        }
+    }
+
+    func getURL(id: UUID, ext: String) -> URL {
+        FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0]
+            .appendingPathComponent("\(id.uuidString).\(ext)")
+    }
+
+    // 5. DELEGATE KHI QUAY XONG
+    func fileOutput(_ output: AVCaptureFileOutput, didFinishRecordingTo url: URL, from connections: [AVCaptureConnection], error: Error?) {
+        generateThumbnail(for: url)
+    }
+    
+    private func generateThumbnail(for url: URL) {
+        let asset = AVURLAsset(url: url)
+        let gen = AVAssetImageGenerator(asset: asset)
+        gen.appliesPreferredTrackTransform = true
+        let time = CMTime(seconds: 0, preferredTimescale: 600)
+        
+        gen.generateCGImagesAsynchronously(forTimes: [NSValue(time: time)]) { _, cgImage, _, _, _ in
+            if let cgImage = cgImage {
+                DispatchQueue.main.async {
+                    self.lastThumbnail = UIImage(cgImage: cgImage)
+                }
+            }
+        }
+    }
+}
