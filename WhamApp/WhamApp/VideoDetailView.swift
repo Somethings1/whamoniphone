@@ -2,179 +2,290 @@
 //  VideoDetailView.swift
 //  WhamApp
 //
-//  Created by admin on 20/3/26.
-//
 
 import SwiftUI
-import AVFoundation
+import AVKit
+import SceneKit
 
 struct VideoDetailView: View {
     let video: VideoModel
-    
-    // Khởi tạo đúng class WhamAnalyzer
     @StateObject private var analyzer = WhamAnalyzer()
     
-    @State private var jsonContent: String = "Đang tải dữ liệu..."
-    @State private var frameCount: Int = 0
-    @State private var statusMessage: String = ""
+    // Local state to force a UI refresh the moment analysis finishes
+    @State private var isAnalyzedLocal: Bool
     
-    @StateObject private var engine = Skeleton3DEngine()
-
+    init(video: VideoModel) {
+        self.video = video
+        _isAnalyzedLocal = State(initialValue: video.isAnalyzed)
+    }
+    
     var body: some View {
-        VStack(alignment: .leading, spacing: 0) {
-            
-            // 1. Header: Thông tin file
-            VStack(alignment: .leading, spacing: 8) {
-                Text("FILE: \(video.url.lastPathComponent)")
-                    .font(.system(size: 12, weight: .bold, design: .monospaced))
-                    .foregroundColor(.secondary)
+        VStack {
+            if analyzer.isProcessing {
+                // STATE 1: Crunching Numbers
+                ProcessingView(analyzer: analyzer)
                 
-                HStack {
-                    Text("SLAM: \(video.hasGyro ? "✅ SẴN SÀNG" : "❌ THIẾU")")
-                    Spacer()
-                    Text("\(frameCount) FRAMES").monospaced()
+            } else if isAnalyzedLocal {
+                // STATE 2: Finished! Show the 3D Tabs
+                AnalyzedTabView(video: video)
+                
+            } else {
+                // STATE 3: Ready to Analyze
+                NotAnalyzedView(video: video, analyzer: analyzer) {
+                    // This closure triggers when analysis is successful
+                    self.isAnalyzedLocal = true
                 }
-                .font(.headline)
             }
-            .padding()
-            .background(Color.secondary.opacity(0.1))
+        }
+        .navigationTitle(video.url.lastPathComponent)
+        .navigationBarTitleDisplayMode(.inline)
+    }
+}
 
-            Divider()
-            // Tìm chỗ hiển thị ảnh debug trong VideoDetailView, thay bằng:
+// MARK: - Subviews for the 3 States
+
+struct ProcessingView: View {
+    @ObservedObject var analyzer: WhamAnalyzer
+    
+    var body: some View {
+        VStack(spacing: 20) {
+            ProgressView(value: analyzer.progress, total: 1.0)
+                .progressViewStyle(.linear)
+                .tint(.blue)
+                .padding(.horizontal, 40)
+            
+            Text(analyzer.statusMessage)
+                .font(.system(size: 14, weight: .bold, design: .monospaced))
+                .foregroundColor(.blue)
+            
+            Text("\(Int(analyzer.progress * 100))%")
+                .font(.headline)
+            
+            // THE FIX: We actually render the debug image while it's processing
             if let debugImg = analyzer.debugImage {
-                VStack(alignment: .leading, spacing: 8) {
-                    Text("TẦM NHÌN CỦA AI (FRAME 10):")
-                        .font(.system(size: 10, weight: .bold, design: .monospaced))
+                VStack(spacing: 8) {
+                    Text("YOLO 2D DEBUGGER (Frame 15):")
+                        .font(.system(size: 12, weight: .bold, design: .monospaced))
                         .foregroundColor(.red)
-                        .padding(.horizontal)
-
+                    
                     Image(uiImage: debugImg)
                         .resizable()
                         .aspectRatio(contentMode: .fit)
                         .background(Color.black)
                         .cornerRadius(12)
-                        .padding(.horizontal)
+                        .padding(.horizontal, 20)
                         
-                    Text("💡 Nếu thấy chấm đỏ đè đúng khớp xương là YOLO ngon!")
-                        .font(.system(size: 9))
-                        .foregroundColor(.secondary)
-                        .padding(.horizontal)
+                    Text("If the box/dots don't align perfectly with the human, YOLO is broken.")
+                        .font(.caption2)
+                        .foregroundColor(.gray)
                 }
-                .padding(.vertical)
+                .padding(.top, 20)
+            }
+        }
+        .frame(maxWidth: .infinity, maxHeight: .infinity)
+        .background(Color.primary.opacity(0.05))
+    }
+}
+
+struct NotAnalyzedView: View {
+    var video: VideoModel
+    @ObservedObject var analyzer: WhamAnalyzer
+    var onComplete: () -> Void
+    
+    var body: some View {
+        VStack {
+            // Media Playback
+            VideoPlayer(player: AVPlayer(url: video.url))
+                .frame(maxHeight: 400)
+                .cornerRadius(12)
+                .padding()
+            
+            Spacer()
+            
+            // The Trigger
+            Button(action: {
+                Task {
+                    await analyzer.analyze(
+                        videoURL: video.url,
+                        gyroJsonURL: video.gyroJsonURL,
+                        outputURL: video.whamOutputURL
+                    )
+                    
+                    if !analyzer.statusMessage.contains("Lỗi") && !analyzer.statusMessage.contains("Failed") {
+                        onComplete()
+                    }
+                }
+            }) {
+                HStack {
+                    Image(systemName: "cpu")
+                    Text("BẮT ĐẦU PHÂN TÍCH WHAM")
+                        .fontWeight(.bold)
+                }
+                .frame(maxWidth: .infinity)
+                .padding()
+                .background(video.hasGyro ? Color.blue : Color.gray)
+                .foregroundColor(.white)
+                .cornerRadius(16)
+                .padding()
+            }
+            .disabled(!video.hasGyro)
+            
+            if !video.hasGyro {
+                Text("⚠️ Cần dữ liệu AR (Gyro) để phân tích.")
+                    .font(.caption)
+                    .foregroundColor(.red)
             }
             
-            Wham3DView(engine: engine)
-                .frame(height: 300)
-                .cornerRadius(15)
-                .padding()
-
-            // 2. Control Panel: Nơi ma thuật phân tích xảy ra
-            VStack(spacing: 15) {
-                if analyzer.isProcessing {
-                    VStack(alignment: .leading, spacing: 10) {
-                        ProgressView(value: analyzer.progress)
-                            .progressViewStyle(.linear)
-                            .tint(.blue)
-                        
-                        HStack {
-                            Text("ĐANG TRÍCH XUẤT NGƯỜI QUE (YOLOv8)...")
-                            Spacer()
-                            Text("\(Int(analyzer.progress * 100))%")
-                        }
-                        .font(.system(size: 12, design: .monospaced))
-                        .foregroundColor(.blue)
-                    }
-                    .padding()
-                    .background(Color.blue.opacity(0.1))
-                } else {
-                    Button(action: {
-                        Task {
-                                let jsonURL = getURL(for: video.url, ext: "json")
-                                await analyzer.analyze(videoURL: video.url, jsonURL: jsonURL)
-                                self.statusMessage = "✅ PHÂN TÍCH XONG!"
-                                loadAndFormatJSON()
-                            }
-                    }) {
-                        HStack {
-                            Image(systemName: "figure.walk.motion")
-                            Text("BẮT ĐẦU PHÂN TÍCH WHAM")
-                                .fontWeight(.bold)
-                        }
-                        .frame(maxWidth: .infinity)
-                        .padding()
-                        .background(video.hasGyro ? Color.blue : Color.gray)
-                        .foregroundColor(.white)
-                        .cornerRadius(12)
-                    }
-                    .disabled(!video.hasGyro)
-                    .padding()
-                }
-                
-                if !statusMessage.isEmpty {
-                    Text(statusMessage)
-                        .font(.caption)
-                        .foregroundColor(.green)
-                        .padding(.bottom, 10)
-                }
-            }
-            .background(Color.primary.opacity(0.03))
-
-            Divider()
-
-            // 3. Debug Zone: Soi nội tạng JSON
-            ScrollView {
-                VStack(alignment: .leading) {
-                    Text("--- JSON PREVIEW (20 FRAMES ĐẦU) ---")
-                        .font(.system(size: 10, weight: .bold))
-                        .foregroundColor(.secondary)
-                        .padding(.bottom, 5)
-                    
-                    Text(jsonContent)
-                        .font(.system(size: 10, design: .monospaced))
-                        .frame(maxWidth: .infinity, alignment: .leading)
-                }
-                .padding()
+            if analyzer.statusMessage.contains("Lỗi") {
+                Text(analyzer.statusMessage)
+                    .font(.caption)
+                    .foregroundColor(.red)
+                    .padding(.bottom)
             }
         }
-        .navigationTitle("Video Analysis")
-        .navigationBarTitleDisplayMode(.inline)
+    }
+}
+
+
+// MARK: - The Tab Router
+struct AnalyzedTabView: View {
+    let video: VideoModel
+    @State private var whamData: [[String: Any]] = []
+    
+    var body: some View {
+        TabView {
+            // TAB 1: Video with AR overlay
+            VideoOverlayView(videoURL: video.url, whamData: whamData)
+                .tabItem {
+                    Image(systemName: "play.tv.fill")
+                    Text("Video Overlay")
+                }
+            
+            // TAB 2: Pure 3D space
+            Wham3DView(whamData: whamData)
+                .tabItem {
+                    Image(systemName: "cube.transparent.fill")
+                    Text("3D World")
+                }
+        }
         .onAppear {
-            loadAndFormatJSON()
+            loadJSONData()
         }
     }
+    
+    private func loadJSONData() {
+        if let data = try? Data(contentsOf: video.whamOutputURL),
+           let json = try? JSONSerialization.jsonObject(with: data) as? [[String: Any]] {
+            self.whamData = json
+        }
+    }
+}
 
-    private func loadAndFormatJSON() {
-        let jsonURL = getURL(for: video.url, ext: "json")
-
-        Task {
-            do {
-                guard FileManager.default.fileExists(atPath: jsonURL.path) else {
-                    await MainActor.run { self.jsonContent = "Lỗi: Không tìm thấy file JSON." }
-                    return
-                }
-
-                let data = try Data(contentsOf: jsonURL)
-                if let jsonObject = try JSONSerialization.jsonObject(with: data) as? [[String: Any]] {
-                    let count = jsonObject.count
-                    let previewData = Array(jsonObject.prefix(20))
-                    let prettyData = try JSONSerialization.data(withJSONObject: previewData, options: .prettyPrinted)
-                    
-                    if let prettyString = String(data: prettyData, encoding: .utf8) {
-                        await MainActor.run {
-                            self.frameCount = count
-                            self.jsonContent = prettyString
-                        }
-                    }
-                }
-            } catch {
-                await MainActor.run { self.jsonContent = "❌ Lỗi đọc JSON: \(error.localizedDescription)" }
+// MARK: - TAB 1: The AR Overlay (Video + 3D)
+struct VideoOverlayView: View {
+    let videoURL: URL
+    let whamData: [[String: Any]]
+    
+    // THE FIX: Independent Engine so it doesn't fight Tab 2
+    @StateObject private var engine = Skeleton3DEngine()
+    @State private var player: AVPlayer
+    
+    let timer = Timer.publish(every: 1.0 / 30.0, on: .main, in: .common).autoconnect()
+    
+    init(videoURL: URL, whamData: [[String: Any]]) {
+        self.videoURL = videoURL
+        self.whamData = whamData
+        _player = State(initialValue: AVPlayer(url: videoURL))
+    }
+    
+    var body: some View {
+        ZStack {
+            VideoPlayer(player: player)
+                .ignoresSafeArea()
+            
+            // THE FIX: Explicitly forcing a clear background
+            SceneView(
+                scene: engine.scene,
+                pointOfView: engine.cameraNode,
+                options: []
+            )
+            .background(Color.clear)
+            .ignoresSafeArea()
+            .allowsHitTesting(false)
+        }
+        .onReceive(timer) { _ in
+            guard whamData.count > 0 else { return }
+            
+            let currentTime = player.currentTime().seconds
+            let fps: Double = 30.0
+            let frameIndex = Int(currentTime * fps)
+            let safeIndex = max(0, min(frameIndex, whamData.count - 1))
+            
+            if let kp3d = whamData[safeIndex]["keypoints_3d"] as? [Float] {
+                engine.applyFrameData(keypoints3D: kp3d)
             }
         }
+        .onDisappear {
+            player.pause()
+        }
     }
+}
 
-    private func getURL(for url: URL, ext: String) -> URL {
-        let id = url.deletingPathExtension().lastPathComponent
-        return FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0]
-            .appendingPathComponent("\(id).\(ext)")
+// MARK: - TAB 2: The Pure 3D World
+struct Wham3DView: View {
+    let whamData: [[String: Any]]
+    
+    // THE FIX: Independent Engine
+    @StateObject private var engine = Skeleton3DEngine()
+    @State private var frameIndex = 0
+    
+    var body: some View {
+        ZStack {
+            SceneView(
+                scene: engine.scene,
+                pointOfView: engine.cameraNode,
+                options: [.allowsCameraControl, .autoenablesDefaultLighting]
+            )
+            .background(Color.black)
+            .ignoresSafeArea()
+            
+            VStack {
+                Text("WHAM 3D SKELETON")
+                    .font(.system(.caption, design: .monospaced))
+                    .padding(8)
+                    .background(Color.black.opacity(0.7))
+                    .foregroundColor(.green)
+                    .cornerRadius(8)
+                    .padding(.top)
+                
+                Spacer()
+                
+                VStack {
+                    Text("Frame: \(frameIndex)")
+                        .font(.caption)
+                        .foregroundColor(.white)
+                    
+                    Slider(value: Binding(
+                        get: { Double(frameIndex) },
+                        set: { newVal in
+                            frameIndex = Int(newVal)
+                            updateSkeleton()
+                        }
+                    ), in: 0...Double(max(whamData.count - 1, 0)))
+                }
+                .padding()
+                .background(Color.black.opacity(0.6))
+            }
+        }
+        .onAppear {
+            updateSkeleton()
+        }
+    }
+    
+    private func updateSkeleton() {
+        guard frameIndex < whamData.count else { return }
+        if let kp3d = whamData[frameIndex]["keypoints_3d"] as? [Float] {
+            engine.applyFrameData(keypoints3D: kp3d)
+        }
     }
 }

@@ -2,62 +2,117 @@
 //  PoseDetector.swift
 //  WhamApp
 //
-//  Created by admin on 21/3/26.
-//
 
 import Vision
+import CoreML
 import UIKit
+import CoreImage // Phải có cái này để dùng CIImage resize
 
 class PoseDetector {
-    // Không cần load model MLPackage nữa, dùng hàng có sẵn của hệ điều hành
+    private var model: yolov8n_pose?
     
-    func detect(pixelBuffer: CVPixelBuffer, completion: @escaping ([[String: Any]]) -> Void) {
-        // 1. Tạo request bắt người của Apple
-        let request = VNDetectHumanBodyPoseRequest { request, error in
-            guard let observations = request.results as? [VNHumanBodyPoseObservation] else {
-                completion([])
-                return
-            }
-            
-            var allPeople: [[String: Any]] = []
-            
-            for observation in observations {
-                // Lấy tất cả các khớp xương có sẵn
-                guard let recognizedPoints = try? observation.recognizedPoints(.all) else { continue }
-                
-                var personDict: [String: [Double]] = [:]
-                
-                for (jointName, point) in recognizedPoints where point.confidence > 0.1 {
-                    // Lột lớp 1: JointName -> VNRecognizedPointKey
-                    // Lột lớp 2: VNRecognizedPointKey -> String
-                    let finalKeyString = jointName.rawValue.rawValue
-                    
-                    personDict[finalKeyString] = [
-                        Double(point.location.x),
-                        Double(1 - point.location.y),
-                        Double(point.confidence)
-                    ]
-                }
-                
-                if !personDict.isEmpty {
-                    allPeople.append(personDict)
-                }
-            }
-            completion(allPeople)
-        }
+    // Khởi tạo một context dùng chung để tận dụng sức mạnh GPU ép size ảnh
+    private let ciContext = CIContext()
 
-        // 2. Chạy request
-        // Vì mày đã sửa Manager quay đúng chiều Portrait, ở đây dùng .up là chuẩn
-        let handler = VNImageRequestHandler(cvPixelBuffer: pixelBuffer, orientation: .right, options: [:])
-        try? handler.perform([request])
+    init() {
+        let config = MLModelConfiguration()
+        config.computeUnits = .all
+        do {
+            self.model = try yolov8n_pose(configuration: config)
+        } catch {
+            print("❌ Lỗi load YOLOv8-Pose: \(error)")
+        }
     }
 
-    // Hàm Async cho thằng WhamAnalyzer (Swift 6)
-    func detectAsync(pixelBuffer: CVPixelBuffer) async -> [[String: Any]] {
-        await withCheckedContinuation { continuation in
-            self.detect(pixelBuffer: pixelBuffer) { results in
-                continuation.resume(returning: results)
+    struct Detection {
+        let box: CGRect
+        let keypoints: [CGPoint]
+        let confidence: Float
+    }
+
+    func detect(pixelBuffer: CVPixelBuffer) -> [Detection] {
+        guard let model = model else { return [] }
+        
+        // SỬA LỖI Ở ĐÂY: Ép size về đúng 640x640 (kích thước chuẩn của YOLOv8)
+        guard let resizedBuffer = resizePixelBuffer(pixelBuffer, targetWidth: 640, targetHeight: 640) else {
+            print("❌ Không thể ép size ảnh")
+            return []
+        }
+        
+        do {
+            // Nhét cái ảnh đã resize vào
+            let input = yolov8n_poseInput(image: resizedBuffer)
+            let output = try model.prediction(input: input)
+            
+            // LƯU Ý: Tên var_1033 có thể thay đổi tùy bản export.
+            // Nếu Xcode báo lỗi chỗ này, hãy gõ "output." rồi đợi nó gợi ý tên đúng.
+            return parseYOLOOutput(output.var_1033)
+        } catch {
+            print("❌ YOLO Inference Error: \(error)")
+            return []
+        }
+    }
+
+    func detectAsync(pixelBuffer: CVPixelBuffer) async -> [Detection] {
+        return detect(pixelBuffer: pixelBuffer)
+    }
+
+    // --- BỘ NHAI ẢNH CỦA GPU ---
+    private func resizePixelBuffer(_ buffer: CVPixelBuffer, targetWidth: Int, targetHeight: Int) -> CVPixelBuffer? {
+        let ciImage = CIImage(cvPixelBuffer: buffer)
+        
+        let scaleX = CGFloat(targetWidth) / CGFloat(CVPixelBufferGetWidth(buffer))
+        let scaleY = CGFloat(targetHeight) / CGFloat(CVPixelBufferGetHeight(buffer))
+        let resized = ciImage.transformed(by: CGAffineTransform(scaleX: scaleX, y: scaleY))
+        
+        var newBuffer: CVPixelBuffer?
+        let attrs = [
+            kCVPixelBufferCGImageCompatibilityKey: kCFBooleanTrue,
+            kCVPixelBufferCGBitmapContextCompatibilityKey: kCFBooleanTrue
+        ] as CFDictionary
+        
+        let status = CVPixelBufferCreate(kCFAllocatorDefault, targetWidth, targetHeight, kCVPixelFormatType_32BGRA, attrs, &newBuffer)
+        
+        if status == kCVReturnSuccess, let nb = newBuffer {
+            ciContext.render(resized, to: nb)
+            return nb
+        }
+        return nil
+    }
+
+    // --- LOGIC PARSE GIỮ NGUYÊN ---
+    private func parseYOLOOutput(_ output: MLMultiArray) -> [Detection] {
+        var detections: [Detection] = []
+        let numDetections = output.shape[2].intValue
+        var bestScore: Float = 0
+        var bestIdx = -1
+
+        for i in 0..<numDetections {
+            let score = output[[0, 4, i] as [NSNumber]].floatValue
+            if score > 0.5 && score > bestScore {
+                bestScore = score
+                bestIdx = i
             }
         }
+
+        if bestIdx != -1 {
+            let cx = output[[0, 0, bestIdx] as [NSNumber]].doubleValue / 640.0
+            let cy = output[[0, 1, bestIdx] as [NSNumber]].doubleValue / 640.0
+            let w = output[[0, 2, bestIdx] as [NSNumber]].doubleValue / 640.0
+            let h = output[[0, 3, bestIdx] as [NSNumber]].doubleValue / 640.0
+            
+            let rect = CGRect(x: cx - w/2, y: cy - h/2, width: w, height: h)
+            
+            var kpts: [CGPoint] = []
+            for j in 0..<17 {
+                let kx = output[[0, 5 + j*3, bestIdx] as [NSNumber]].doubleValue / 640.0
+                let ky = output[[0, 5 + j*3 + 1, bestIdx] as [NSNumber]].doubleValue / 640.0
+                kpts.append(CGPoint(x: kx, y: ky))
+            }
+            
+            detections.append(Detection(box: rect, keypoints: kpts, confidence: bestScore))
+        }
+        
+        return detections
     }
 }

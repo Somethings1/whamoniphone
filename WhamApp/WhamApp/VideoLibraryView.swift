@@ -2,12 +2,37 @@
 //  VideoLibraryView.swift
 //  WhamApp
 //
-//  Created by admin on 20/3/26.
-//
 
 import SwiftUI
 import AVFoundation
 
+// MARK: - Core Data Model
+struct VideoModel: Identifiable, Hashable {
+    let id: UUID
+    let url: URL // The .mp4 file
+    
+    // The raw AR tracking data you recorded
+    var gyroJsonURL: URL {
+        let docs = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0]
+        return docs.appendingPathComponent("\(url.deletingPathExtension().lastPathComponent).json")
+    }
+    
+    // The output from our AI model
+    var whamOutputURL: URL {
+        let docs = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0]
+        return docs.appendingPathComponent("\(url.deletingPathExtension().lastPathComponent)_wham_output.json")
+    }
+    
+    var hasGyro: Bool {
+        return FileManager.default.fileExists(atPath: gyroJsonURL.path)
+    }
+    
+    var isAnalyzed: Bool {
+        return FileManager.default.fileExists(atPath: whamOutputURL.path)
+    }
+}
+
+// MARK: - Library View
 struct VideoLibraryView: View {
     @State private var videos: [VideoModel] = []
     @Environment(\.dismiss) var dismiss
@@ -17,26 +42,35 @@ struct VideoLibraryView: View {
             List(videos) { video in
                 NavigationLink(destination: VideoDetailView(video: video)) {
                     HStack {
-                        // Thumbnail (Lấy từ file video thực tế)
                         VideoThumbnailView(url: video.url)
                             .frame(width: 80, height: 60)
                             .cornerRadius(8)
                         
-                        VStack(alignment: .leading) {
+                        VStack(alignment: .leading, spacing: 4) {
                             Text(video.url.lastPathComponent)
-                                .font(.system(size: 14, design: .monospaced))
+                                .font(.system(size: 14, weight: .bold, design: .monospaced))
                                 .lineLimit(1)
-                            Text("Gyro: \(video.hasGyro ? "✅ Sẵn sàng" : "❌ Thiếu")")
-                                .font(.caption)
-                                .foregroundColor(video.hasGyro ? .green : .red)
+                            
+                            HStack {
+                                if video.hasGyro {
+                                    Text("AR: ✅")
+                                        .font(.caption2)
+                                        .foregroundColor(.green)
+                                } else {
+                                    Text("AR: ❌")
+                                        .font(.caption2)
+                                        .foregroundColor(.red)
+                                }
+                                
+                                if video.isAnalyzed {
+                                    Text("| WHAM: ✅")
+                                        .font(.caption2)
+                                        .foregroundColor(.blue)
+                                }
+                            }
                         }
                         
                         Spacer()
-                        
-                        if video.isAnalyzed {
-                            Image(systemName: "checkmark.seal.fill")
-                                .foregroundColor(.blue)
-                        }
                     }
                 }
             }
@@ -51,47 +85,26 @@ struct VideoLibraryView: View {
     func loadVideos() {
         let docs = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0]
         do {
-            // 1. Lấy danh sách file kèm theo thuộc tính ngày tạo
-            let files = try FileManager.default.contentsOfDirectory(at: docs,
-                                                                    includingPropertiesForKeys: [.creationDateKey],
-                                                                    options: .skipsHiddenFiles)
+            let files = try FileManager.default.contentsOfDirectory(at: docs, includingPropertiesForKeys: [.creationDateKey], options: .skipsHiddenFiles)
             
-            // 2. Lọc file mp4 và SẮP XẾP GIẢM DẦN (Mới nhất lên đầu)
             let sortedVideoURLs = files.filter { $0.pathExtension == "mp4" }
                 .sorted { (url1, url2) -> Bool in
-                    let date1 = (try? url1.resourceValues(forKeys: [.creationDateKey]))?.creationDate ?? Date.distantPast
-                    let date2 = (try? url2.resourceValues(forKeys: [.creationDateKey]))?.creationDate ?? Date.distantPast
-                    return date1 > date2 // Dấu '>' là để thằng mới hơn đứng trước
+                    let date1 = (try? url1.resourceValues(forKeys: [.creationDateKey]))?.creationDate ?? .distantPast
+                    let date2 = (try? url2.resourceValues(forKeys: [.creationDateKey]))?.creationDate ?? .distantPast
+                    return date1 > date2
                 }
             
-            // 3. Map sang VideoModel của mày
             self.videos = sortedVideoURLs.map { url in
                 let idString = url.deletingPathExtension().lastPathComponent
-                let jsonURL = docs.appendingPathComponent("\(idString).json")
-                let analyzedURL = docs.appendingPathComponent("\(idString)_out.mp4")
-                
-                return VideoModel(
-                    id: UUID(uuidString: idString) ?? UUID(),
-                    url: url,
-                    hasGyro: FileManager.default.fileExists(atPath: jsonURL.path),
-                    isAnalyzed: FileManager.default.fileExists(atPath: analyzedURL.path)
-                )
+                return VideoModel(id: UUID(uuidString: idString) ?? UUID(), url: url)
             }
         } catch {
-            print("❌ Lỗi sắp xếp thư viện: \(error)")
+            print("❌ Lỗi load thư viện: \(error)")
         }
     }
 }
 
-// Model cập nhật để check Gyro
-struct VideoModel: Identifiable {
-    let id: UUID
-    let url: URL
-    let hasGyro: Bool
-    let isAnalyzed: Bool
-}
-
-// 1. Cái này để hiện cái hình nhỏ nhỏ trong danh sách
+// MARK: - Thumbnail Generator
 struct VideoThumbnailView: View {
     let url: URL
     @State private var thumbnail: UIImage? = nil
@@ -103,12 +116,10 @@ struct VideoThumbnailView: View {
                     .resizable()
                     .aspectRatio(contentMode: .fill)
             } else {
-                Color.black // Hiện màu đen trong lúc chờ load
+                Color.black
             }
         }
-        .onAppear {
-            generateThumbnail()
-        }
+        .onAppear(perform: generateThumbnail)
     }
 
     func generateThumbnail() {

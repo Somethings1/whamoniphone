@@ -1,0 +1,3311 @@
+This file is a merged representation of the entire codebase, combined into a single document by Repomix.
+
+<file_summary>
+This section contains a summary of this file.
+
+<purpose>
+This file contains a packed representation of the entire repository's contents.
+It is designed to be easily consumable by AI systems for analysis, code review,
+or other automated processes.
+</purpose>
+
+<file_format>
+The content is organized as follows:
+1. This summary section
+2. Repository information
+3. Directory structure
+4. Repository files (if enabled)
+5. Multiple file entries, each consisting of:
+  - File path as an attribute
+  - Full contents of the file
+</file_format>
+
+<usage_guidelines>
+- This file should be treated as read-only. Any changes should be made to the
+  original repository files, not this packed version.
+- When processing this file, use the file path to distinguish
+  between different files in the repository.
+- Be aware that this file may contain sensitive information. Handle it with
+  the same level of security as you would the original repository.
+</usage_guidelines>
+
+<notes>
+- Some files may have been excluded based on .gitignore rules and Repomix's configuration
+- Binary files are not included in this packed representation. Please refer to the Repository Structure section for a complete list of file paths, including binary files
+- Files matching patterns in .gitignore are excluded
+- Files matching default ignore patterns are excluded
+- Files are sorted by Git change count (files with more changes are at the bottom)
+</notes>
+
+</file_summary>
+
+<directory_structure>
+utils/
+  FastViT_WHAM_Backbone.mlpackage/
+    Data/
+      com.apple.CoreML/
+        weights/
+          weight.bin
+        model.mlmodel
+    Manifest.json
+  WHAM_Int8.mlpackage/
+    Data/
+      com.apple.CoreML/
+        weights/
+          weight.bin
+        model.mlmodel
+    Manifest.json
+  WHAM_ViT.mlpackage/
+    Data/
+      com.apple.CoreML/
+        weights/
+          weight.bin
+        FeatureDescriptions.json
+        Metadata.json
+        model.mlmodel
+    Manifest.json
+  WHAM.mlpackage/
+    Data/
+      com.apple.CoreML/
+        weights/
+          weight.bin
+        model.mlmodel
+    Manifest.json
+  distillvit-2.ipynb
+  extractViT.py
+  ExtractWHAM.ipynb
+  fastvit_student_1024.pth
+  fastvit_wham_epoch_5.pth
+  palletization.py
+  quantize_16.py
+  quantize.py
+WhamApp/
+  WhamApp/
+     FastViT.mlpackage/
+      Data/
+        com.apple.CoreML/
+          weights/
+            weight.bin
+          FeatureDescriptions.json
+          Metadata.json
+          model.mlmodel
+      Manifest.json
+    Assets.xcassets/
+      AccentColor.colorset/
+        Contents.json
+      AppIcon.appiconset/
+        Contents.json
+      Contents.json
+    WHAM_INT8_SAFE.mlpackage/
+      Data/
+        com.apple.CoreML/
+          weights/
+            weight.bin
+          model.mlmodel
+      Manifest.json
+    yolov8n-pose.mlpackage/
+      Data/
+        com.apple.CoreML/
+          weights/
+            weight.bin
+          model.mlmodel
+      Manifest.json
+    ARViewContainer.swift
+    ARWhamManager.swift
+    CameraPreview.swift
+    ContentView.swift
+    PoseDetector.swift
+    Skeleton3DEngine.swift
+    VideoDetailView.swift
+    VideoLibraryView.swift
+    Wham3DView.swift
+    WhamAnalyzer.swift
+    WhamApp.swift
+    WhamCaptureManager.swift
+  WhamApp.xcodeproj/
+    project.xcworkspace/
+      xcshareddata/
+        WorkspaceSettings.xcsettings
+      xcuserdata/
+        admin.xcuserdatad/
+          UserInterfaceState.xcuserstate
+          WorkspaceSettings.xcsettings
+      contents.xcworkspacedata
+    xcshareddata/
+      xcschemes/
+        WhamApp.xcscheme
+    xcuserdata/
+      admin.xcuserdatad/
+        xcschemes/
+          xcschememanagement.plist
+    project.pbxproj
+  WhamAppTests/
+    WhamAppTests.swift
+  WhamAppUITests/
+    WHAM_FINAL_FIXED.mlpackage/
+      Data/
+        com.apple.CoreML/
+          weights/
+            weight.bin
+          model.mlmodel
+      Manifest.json
+    WhamAppUITests.swift
+    WhamAppUITestsLaunchTests.swift
+</directory_structure>
+
+<files>
+This section contains the contents of the repository's files.
+
+<file path="utils/WHAM_Int8.mlpackage/Data/com.apple.CoreML/model.mlmodel">
+
+</file>
+
+<file path="utils/WHAM_Int8.mlpackage/Manifest.json">
+{
+    "fileFormatVersion": "1.0.0",
+    "itemInfoEntries": {
+        "5B6B0436-8E15-40AE-B936-F8D395B89E14": {
+            "author": "com.apple.CoreML",
+            "description": "CoreML Model Weights",
+            "name": "weights",
+            "path": "com.apple.CoreML/weights"
+        },
+        "7385FAAF-20D2-46D2-A75C-D91976AAD29A": {
+            "author": "com.apple.CoreML",
+            "description": "CoreML Model Specification",
+            "name": "model.mlmodel",
+            "path": "com.apple.CoreML/model.mlmodel"
+        }
+    },
+    "rootModelIdentifier": "7385FAAF-20D2-46D2-A75C-D91976AAD29A"
+}
+</file>
+
+<file path="utils/WHAM.mlpackage/Manifest.json">
+{
+    "fileFormatVersion": "1.0.0",
+    "itemInfoEntries": {
+        "22057697-f2e3-4adc-b6e0-a151ba1cecd1": {
+            "author": "com.apple.CoreML",
+            "description": "CoreML Model Weights",
+            "name": "weights",
+            "path": "com.apple.CoreML/weights"
+        },
+        "469cb44e-ab29-4359-9ca1-3fedbcefdfb9": {
+            "author": "com.apple.CoreML",
+            "description": "CoreML Model Specification",
+            "name": "model.mlmodel",
+            "path": "com.apple.CoreML/model.mlmodel"
+        }
+    },
+    "rootModelIdentifier": "469cb44e-ab29-4359-9ca1-3fedbcefdfb9"
+}
+</file>
+
+<file path="utils/palletization.py">
+import coremltools as ct
+from coremltools.optimize.coreml import (
+    OpLinearQuantizerConfig,
+    OptimizationConfig,
+    linear_quantize_weights
+)
+import gc
+import warnings
+
+warnings.filterwarnings("ignore")
+
+print("0. Bắt đầu niệm chú khóa mõm 'fuse_stack_split'...")
+try:
+    import coremltools.converters.mil.mil.passes.defs.common
+except:
+    pass
+
+# Nếu không có đoạn này, Python sẽ tự tử trước khi nhả ra được file
+patched = False
+for obj in gc.get_objects():
+    if isinstance(obj, type) and 'fuse_stack_split' in getattr(obj, '__name__', '').lower():
+        setattr(obj, '__call__', lambda self, *args, **kwargs: None)
+        setattr(obj, 'apply', lambda self, *args, **kwargs: None)
+        patched = True
+
+if patched:
+    print("🔥 Đã khóa mõm fuse_stack_split thành công!")
+
+print("1. Đang nạp model WHAM gốc...")
+model = ct.models.MLModel("WHAM.mlpackage")
+
+print("2. Thiết lập ranh giới bảo vệ Bias (Threshold = 25000)...")
+op_config = OpLinearQuantizerConfig(
+    mode="linear_symmetric",
+    dtype="int8",
+    weight_threshold=25000
+)
+
+config = OptimizationConfig(global_config=op_config)
+
+print("3. Đang ép cân xuống INT8...")
+compressed_model = linear_quantize_weights(model, config=config)
+
+print("4. Đang dọn rác RAM...")
+del model
+gc.collect()
+
+print("5. Đang lưu file...")
+compressed_model.save("WHAM_INT8_SAFE.mlpackage")
+print("🎉 XONG! Quăng vào Xcode và Clean Build đi ông giáo.")
+</file>
+
+<file path="utils/quantize_16.py">
+import coremltools as ct
+from coremltools.optimize.coreml import OptimizationConfig
+
+print("1. Đang nạp con quái vật WHAM 123MB...")
+model = ct.models.MLModel("WHAM.mlpackage")
+
+print("2. Đang chặt đôi dung lượng (Cast sang Float16)...")
+# Cấu hình ép toàn bộ trọng số từ Float32 xuống Float16
+op_config = ct.optimize.coreml.OpCastConfig(weight_dtype="float16")
+config = OptimizationConfig(global_config=op_config)
+
+# Thực thi
+compressed_model = ct.optimize.coreml.cast_weights(model, config=config)
+
+print("3. Đang lưu lại...")
+compressed_model.save("WHAM_FP16.mlpackage")
+print("🎉 Xong! Hãy check xem thư mục hiện tại có file WHAM_FP16.mlpackage nặng tầm 60MB không.")
+</file>
+
+<file path="WhamApp/WhamApp/ FastViT.mlpackage/Data/com.apple.CoreML/FeatureDescriptions.json">
+{
+  "Inputs" : {
+    "image_input" : {
+      "MLFeatureShortDescription" : "--"
+    }
+  },
+  "Outputs" : {
+    "features_1024" : {
+      "MLFeatureShortDescription" : "--"
+    }
+  },
+  "TrainingInputs" : {
+
+  },
+  "States" : {
+
+  }
+}
+</file>
+
+<file path="WhamApp/WhamApp/ FastViT.mlpackage/Data/com.apple.CoreML/Metadata.json">
+{
+  "MLModelVersionStringKey" : "--",
+  "MLModelDescriptionKey" : "--",
+  "MLModelCreatorDefinedKey" : {
+    "com.github.apple.coremltools.conversion_date" : "2026-03-26",
+    "com.github.apple.coremltools.source" : "torch==2.2.2",
+    "com.github.apple.coremltools.version" : "9.0",
+    "com.github.apple.coremltools.source_dialect" : "TorchScript"
+  },
+  "MLModelAuthorKey" : "--",
+  "MLModelLicenseKey" : "--"
+}
+</file>
+
+<file path="WhamApp/WhamApp/ FastViT.mlpackage/Manifest.json">
+{
+    "fileFormatVersion": "1.0.0",
+    "itemInfoEntries": {
+        "039F5A38-DFD5-44DA-A3B0-01D1F9CFD55A": {
+            "author": "com.apple.CoreML",
+            "description": "External FeatureDescription Overlay",
+            "name": "FeatureDescriptions.json",
+            "path": "com.apple.CoreML/FeatureDescriptions.json"
+        },
+        "67A06772-F673-42E5-A531-630B5F3FE294": {
+            "author": "com.apple.CoreML",
+            "description": "CoreML Model Weights",
+            "name": "weights",
+            "path": "com.apple.CoreML/weights"
+        },
+        "D25DECFE-D23F-41C7-990B-E2F6C4EF14BE": {
+            "author": "com.apple.CoreML",
+            "description": "CoreML Model Specification",
+            "name": "model.mlmodel",
+            "path": "com.apple.CoreML/model.mlmodel"
+        },
+        "FF923A66-C431-4D5A-83FB-463082526F56": {
+            "author": "com.apple.CoreML",
+            "description": "External Metadata Overlay",
+            "name": "Metadata.json",
+            "path": "com.apple.CoreML/Metadata.json"
+        }
+    },
+    "rootModelIdentifier": "D25DECFE-D23F-41C7-990B-E2F6C4EF14BE"
+}
+</file>
+
+<file path="WhamApp/WhamApp/WHAM_INT8_SAFE.mlpackage/Manifest.json">
+{
+    "fileFormatVersion": "1.0.0",
+    "itemInfoEntries": {
+        "24164EA8-CC83-404E-80EA-5BF3A972C4BF": {
+            "author": "com.apple.CoreML",
+            "description": "CoreML Model Specification",
+            "name": "model.mlmodel",
+            "path": "com.apple.CoreML/model.mlmodel"
+        },
+        "BF5872F0-31DD-4EF0-9701-A16A424F7B26": {
+            "author": "com.apple.CoreML",
+            "description": "CoreML Model Weights",
+            "name": "weights",
+            "path": "com.apple.CoreML/weights"
+        }
+    },
+    "rootModelIdentifier": "24164EA8-CC83-404E-80EA-5BF3A972C4BF"
+}
+</file>
+
+<file path="utils/FastViT_WHAM_Backbone.mlpackage/Manifest.json">
+{
+    "fileFormatVersion": "1.0.0",
+    "itemInfoEntries": {
+        "206014EC-A46B-49E7-B86C-093ADCEAD317": {
+            "author": "com.apple.CoreML",
+            "description": "CoreML Model Specification",
+            "name": "model.mlmodel",
+            "path": "com.apple.CoreML/model.mlmodel"
+        },
+        "CE673D51-97ED-4B28-98CE-763ECBA94437": {
+            "author": "com.apple.CoreML",
+            "description": "CoreML Model Weights",
+            "name": "weights",
+            "path": "com.apple.CoreML/weights"
+        }
+    },
+    "rootModelIdentifier": "206014EC-A46B-49E7-B86C-093ADCEAD317"
+}
+</file>
+
+<file path="utils/WHAM_ViT.mlpackage/Data/com.apple.CoreML/FeatureDescriptions.json">
+{
+  "Inputs" : {
+    "input_image" : {
+      "MLFeatureShortDescription" : "--"
+    }
+  },
+  "Outputs" : {
+    "image_features" : {
+      "MLFeatureShortDescription" : "--"
+    }
+  },
+  "TrainingInputs" : {
+
+  },
+  "States" : {
+
+  }
+}
+</file>
+
+<file path="utils/WHAM_ViT.mlpackage/Data/com.apple.CoreML/Metadata.json">
+{
+  "MLModelVersionStringKey" : "--",
+  "MLModelDescriptionKey" : "ViT Extractor: Ảnh 256x192 -> Vector 1024",
+  "MLModelCreatorDefinedKey" : {
+    "com.github.apple.coremltools.conversion_date" : "2026-03-24",
+    "com.github.apple.coremltools.source" : "torch==2.10.0+cpu",
+    "com.github.apple.coremltools.version" : "9.0",
+    "com.github.apple.coremltools.source_dialect" : "TorchScript"
+  },
+  "MLModelAuthorKey" : "Long",
+  "MLModelLicenseKey" : "--"
+}
+</file>
+
+<file path="utils/WHAM_ViT.mlpackage/Manifest.json">
+{
+    "fileFormatVersion": "1.0.0",
+    "itemInfoEntries": {
+        "4EE2B8C9-AF3B-4E25-B4D1-028CD3F3F94D": {
+            "author": "com.apple.CoreML",
+            "description": "External Metadata Overlay",
+            "name": "Metadata.json",
+            "path": "com.apple.CoreML/Metadata.json"
+        },
+        "7ec01d4c-7d00-404a-a20f-c039242d7be6": {
+            "author": "com.apple.CoreML",
+            "description": "CoreML Model Specification",
+            "name": "model.mlmodel",
+            "path": "com.apple.CoreML/model.mlmodel"
+        },
+        "E670FACB-A7D1-47D9-84F0-2AB2748FF094": {
+            "author": "com.apple.CoreML",
+            "description": "External FeatureDescription Overlay",
+            "name": "FeatureDescriptions.json",
+            "path": "com.apple.CoreML/FeatureDescriptions.json"
+        },
+        "ef6e3149-5ac1-4c6e-97a8-df81b0def8ce": {
+            "author": "com.apple.CoreML",
+            "description": "CoreML Model Weights",
+            "name": "weights",
+            "path": "com.apple.CoreML/weights"
+        }
+    },
+    "rootModelIdentifier": "7ec01d4c-7d00-404a-a20f-c039242d7be6"
+}
+</file>
+
+<file path="utils/distillvit-2.ipynb">
+{"metadata":{"kernelspec":{"language":"python","display_name":"Python 3","name":"python3"},"language_info":{"name":"python","version":"3.12.12","mimetype":"text/x-python","codemirror_mode":{"name":"ipython","version":3},"pygments_lexer":"ipython3","nbconvert_exporter":"python","file_extension":".py"},"kaggle":{"accelerator":"nvidiaTeslaT4","dataSources":[{"sourceType":"datasetVersion","sourceId":15296234,"datasetId":9782257,"databundleVersionId":16199570}],"dockerImageVersionId":31329,"isInternetEnabled":true,"language":"python","sourceType":"notebook","isGpuEnabled":true}},"nbformat_minor":4,"nbformat":4,"cells":[{"cell_type":"code","source":"!pip install timm coremltools # Cài luôn coremltools để tí nữa convert\n\nimport torch\nimport torch.nn as nn\nimport torch.optim as optim\nimport timm\nfrom torch.utils.data import Dataset, DataLoader\nfrom PIL import Image\nimport torchvision.transforms as T\nimport glob\nimport os\n\n# --- CẤU HÌNH ĐƯỜNG DẪN ---\n# Dựa trên screenshot của ông\nIMG_DIR = '/kaggle/input/datasets/quocbao8925/coco-person-only/images/train/' \nBATCH_SIZE = 32\nEPOCHS = 5 # Backbone chỉ cần 5-10 là đủ\nDEVICE = \"cuda\" if torch.cuda.is_available() else \"cpu\"","metadata":{"_uuid":"8f2839f25d086af736a60e9eeb907d3b93b6e0e5","_cell_guid":"b1076dfc-b9ad-4769-8c92-a6c4dae69d19","trusted":true,"execution":{"iopub.status.busy":"2026-03-24T10:22:37.937770Z","iopub.execute_input":"2026-03-24T10:22:37.938084Z","iopub.status.idle":"2026-03-24T10:22:57.951591Z","shell.execute_reply.started":"2026-03-24T10:22:37.938052Z","shell.execute_reply":"2026-03-24T10:22:57.950964Z"}},"outputs":[],"execution_count":null},{"cell_type":"code","source":"!mkdir checkpoints\n!gdown \"https://drive.google.com/uc?id=1J6l8teyZrL0zFzHhzkC7efRhU0ZJ5G9Y&export=download&confirm=t\" -O 'checkpoints/hmr2a.ckpt'","metadata":{"trusted":true,"execution":{"iopub.status.busy":"2026-03-24T10:22:57.953092Z","iopub.execute_input":"2026-03-24T10:22:57.953688Z","iopub.status.idle":"2026-03-24T10:23:24.672677Z","shell.execute_reply.started":"2026-03-24T10:22:57.953661Z","shell.execute_reply":"2026-03-24T10:23:24.671764Z"}},"outputs":[],"execution_count":null},{"cell_type":"code","source":"import torch\nimport torch.nn as nn\nfrom timm.models.vision_transformer import Block\n\nclass ViT(nn.Module):\n    def __init__(self, img_size=224, patch_size=16, embed_dim=1280, depth=32, num_heads=16, ratio=4, **kwargs):\n        super().__init__()\n        self.patch_embed = nn.Conv2d(3, embed_dim, kernel_size=patch_size, stride=patch_size)\n        num_patches = (img_size // patch_size) ** 2\n        self.pos_embed = nn.Parameter(torch.zeros(1, num_patches + 1, embed_dim))\n        self.cls_token = nn.Parameter(torch.zeros(1, 1, embed_dim))\n        self.blocks = nn.ModuleList([\n            Block(embed_dim, num_heads, ratio, qkv_bias=True)\n            for _ in range(depth)\n        ])\n        self.norm = nn.LayerNorm(embed_dim)\n\n    def forward(self, x):\n        x = self.patch_embed(x)\n        x = x.flatten(2).transpose(1, 2)\n        cls_token = self.cls_token.expand(x.shape[0], -1, -1)\n        x = torch.cat((cls_token, x), dim=1)\n        x = x + self.pos_embed\n        for block in self.blocks:\n            x = block(x)\n        x = self.norm(x)\n        return x[:, 0] # Chỉ lấy CLS token (feature 1280-dim)","metadata":{"trusted":true,"execution":{"iopub.status.busy":"2026-03-24T10:23:24.674223Z","iopub.execute_input":"2026-03-24T10:23:24.674518Z","iopub.status.idle":"2026-03-24T10:23:24.682708Z","shell.execute_reply.started":"2026-03-24T10:23:24.674467Z","shell.execute_reply":"2026-03-24T10:23:24.681893Z"}},"outputs":[],"execution_count":null},{"cell_type":"code","source":"import torch.nn.functional as F\n\ndef load_hmr2_backbone_ultimate(checkpoint_path, device):\n    model = ViT(img_size=224, patch_size=16, embed_dim=1280, depth=32, num_heads=16)\n    checkpoint = torch.load(checkpoint_path, map_location='cpu')\n    state_dict = checkpoint['state_dict']\n    \n    new_state_dict = {}\n    prefix = \"backbone.\"\n    \n    # 1. Lọc và đổi tên cơ bản\n    for k, v in state_dict.items():\n        if k.startswith(prefix):\n            clean_key = k[len(prefix):]\n            # Sửa lỗi .proj của turn trước\n            if 'patch_embed.proj.' in clean_key:\n                clean_key = clean_key.replace('patch_embed.proj.', 'patch_embed.')\n            # Sửa lỗi norm vs last_norm\n            if clean_key == 'last_norm.weight': clean_key = 'norm.weight'\n            if clean_key == 'last_norm.bias': clean_key = 'norm.bias'\n            \n            new_state_dict[clean_key] = v\n\n    # 2. Xử lý thất lạc 'cls_token'\n    if 'cls_token' not in new_state_dict:\n        # Thử tìm xem nó có nằm ngoài prefix 'backbone.' không\n        for k, v in state_dict.items():\n            if 'cls_token' in k:\n                new_state_dict['cls_token'] = v\n                print(f\">>> Đã tìm thấy 'cls_token' tại key: {k}\")\n                break\n\n    # 3. Nội suy pos_embed (Giữ nguyên logic thành công của ông)\n    if 'pos_embed' in new_state_dict:\n        pos_embed_ckpt = new_state_dict['pos_embed']\n        embedding_dim = pos_embed_ckpt.shape[-1]\n        cls_token_embed = pos_embed_ckpt[:, :1, :]\n        spatial_embed = pos_embed_ckpt[:, 1:, :] \n        \n        # Nội suy từ 16x12 lên 14x14\n        spatial_embed = spatial_embed.reshape(1, 16, 12, embedding_dim).permute(0, 3, 1, 2)\n        spatial_embed = F.interpolate(spatial_embed, size=(14, 14), mode='bicubic', align_corners=False)\n        spatial_embed = spatial_embed.permute(0, 2, 3, 1).reshape(1, 196, embedding_dim)\n        \n        new_state_dict['pos_embed'] = torch.cat((cls_token_embed, spatial_embed), dim=1)\n        print(\">>> Đã nội suy pos_embed thành công!\")\n\n    # 4. Nạp vào model\n    msg = model.load_state_dict(new_state_dict, strict=False)\n    print(f\"Kết quả ghép não cuối cùng: {msg}\")\n    \n    # Kiểm tra \"sức khỏe\" mô hình\n    if not msg.missing_keys:\n        print(\">>> THẦY ĐÃ CÓ ĐỦ NÃO! Sẵn sàng Distill.\")\n    else:\n        print(f\">>> CẢNH BÁO: Vẫn thiếu các key: {msg.missing_keys}\")\n\n    model.to(device).eval()\n    return model\n\nteacher = load_hmr2_backbone_ultimate('/kaggle/working/checkpoints/hmr2a.ckpt', DEVICE)","metadata":{"trusted":true,"execution":{"iopub.status.busy":"2026-03-24T10:33:40.917123Z","iopub.execute_input":"2026-03-24T10:33:40.917902Z","iopub.status.idle":"2026-03-24T10:33:45.533477Z","shell.execute_reply.started":"2026-03-24T10:33:40.917871Z","shell.execute_reply":"2026-03-24T10:33:45.532654Z"}},"outputs":[],"execution_count":null},{"cell_type":"code","source":"import torch\nimport torch.nn as nn\nimport timm\nfrom torch.utils.data import Dataset\nimport glob\nimport os\nfrom PIL import Image\n\n# 1. Thằng Trò FastViT - Tối ưu cho Apple Neural Engine\nclass FastViTStudent(nn.Module):\n    def __init__(self, model_name='fastvit_sa24', target_dim=1280):\n        super().__init__()\n        # Load FastViT bản SA24 (cân bằng tốc độ/độ chính xác)\n        # num_classes=0 để lấy feature trực tiếp\n        self.backbone = timm.create_model(model_name, pretrained=True, num_classes=0)\n        \n        # Tự động lấy số chiều đầu ra của FastViT\n        with torch.no_grad():\n            dummy_input = torch.randn(1, 3, 224, 224)\n            student_out_dim = self.backbone(dummy_input).shape[1]\n        \n        # Lớp \"đầu chuyển\" để ép từ dimension của Student về 1280 của ViT-L\n        self.proj = nn.Linear(student_out_dim, target_dim)\n\n    def forward(self, x):\n        features = self.backbone(x)\n        return self.proj(features)\n\n# 2. Bộ nạp dữ liệu (Dataset) - Chỉ quét ảnh, không cần nhãn\nclass DistillDataset(Dataset):\n    def __init__(self, img_dir, transform=None):\n        # Chỉ lấy file .jpg trong thư mục train/images của ông\n        self.img_paths = glob.glob(os.path.join(img_dir, '*.jpg'))\n        self.transform = transform\n        print(f\"Đã nạp {len(self.img_paths)} ảnh để chuẩn bị vắt sữa.\")\n\n    def __len__(self):\n        return len(self.img_paths)\n\n    def __getitem__(self, idx):\n        img_path = self.img_paths[idx]\n        image = Image.open(img_path).convert('RGB')\n        if self.transform:\n            image = self.transform(image)\n        return image\n\nimport torchvision.transforms as T\n\n# Bộ transform chuẩn để đưa ảnh về định dạng mà ViT-L và FastViT đều hiểu\ntransform = T.Compose([\n    T.Resize((224, 224)), # Đưa về kích thước 224x224 chuẩn\n    T.ToTensor(), # Chuyển ảnh thành Tensor\n    # Chuẩn hóa theo thông số của bộ ImageNet (Thầy và Trò đều học từ đây)\n    T.Normalize(mean=[0.485, 0.456, 0.406], std=[0.229, 0.224, 0.225]),\n])","metadata":{"trusted":true,"execution":{"iopub.status.busy":"2026-03-24T10:37:54.905583Z","iopub.execute_input":"2026-03-24T10:37:54.906219Z","iopub.status.idle":"2026-03-24T10:37:54.915070Z","shell.execute_reply.started":"2026-03-24T10:37:54.906190Z","shell.execute_reply":"2026-03-24T10:37:54.914389Z"}},"outputs":[],"execution_count":null},{"cell_type":"code","source":"from tqdm import tqdm\nimport torch\n\n# --- KHỞI TẠO (Chỉ chạy 1 lần) ---\n# Đảm bảo các biến EPOCHS, DEVICE, BATCH_SIZE đã được định nghĩa ở cell đầu\nstudent = FastViTStudent().to(DEVICE)\noptimizer = torch.optim.AdamW(student.parameters(), lr=1e-4)\ncriterion = torch.nn.MSELoss()\n\ndataset = DistillDataset(IMG_DIR, transform=transform)\nloader = torch.utils.data.DataLoader(dataset, batch_size=BATCH_SIZE, shuffle=True, num_workers=2)\n\n# --- VÒNG LẶP LUYỆN CÔNG (Epoch Loop) ---\nprint(f\"Bắt đầu quy trình vắt sữa feature từ Teacher sang Student trên {DEVICE}...\")\n\nfor epoch in range(EPOCHS): # Thêm cái vòng lặp này vào thì mới có biến 'epoch'\n    student.train()\n    teacher.eval() # Thầy chỉ dạy, không học thêm (đóng băng)\n    running_loss = 0.0\n    \n    # Bọc loader vào tqdm để hiện progress bar cho oai với đời\n    pbar = tqdm(loader, desc=f\"Epoch {epoch+1}/{EPOCHS}\", unit=\"batch\")\n    \n    for images in pbar:\n        images = images.to(DEVICE)\n        \n        # 1. Thầy nhả feature (Không tính gradient cho nhẹ GPU)\n        with torch.no_grad():\n            t_feat = teacher(images) # Output: 1280 dim\n            \n        # 2. Trò nhái lại\n        s_feat = student(images)\n        loss = criterion(s_feat, t_feat)\n        \n        # 3. Cập nhật trọng số cho Trò\n        optimizer.zero_grad()\n        loss.backward()\n        optimizer.step()\n        \n        running_loss += loss.item()\n        \n        # Cập nhật loss realtime trên thanh bar\n        pbar.set_postfix({'loss': f\"{loss.item():.4f}\"})\n    \n    avg_loss = running_loss / len(loader)\n    print(f\"Hoàn thành Epoch {epoch+1} - Loss trung bình: {avg_loss:.6f}\")\n    \n    # --- LƯU LẠI THÀNH QUẢ SAU MỖI EPOCH ---\n    checkpoint_path = f'fastvit_wham_epoch_{epoch+1}.pth'\n    torch.save(student.state_dict(), checkpoint_path)\n    print(f\"Đã lưu 'linh đan' vào: {checkpoint_path}\")\n\nprint(\"--- CHÚC MỪNG ÔNG GIÁO! LUYỆN CÔNG HOÀN TẤT ---\")","metadata":{"trusted":true,"execution":{"iopub.status.busy":"2026-03-24T10:39:07.302305Z","iopub.execute_input":"2026-03-24T10:39:07.302681Z","iopub.status.idle":"2026-03-24T10:40:28.685549Z","shell.execute_reply.started":"2026-03-24T10:39:07.302650Z","shell.execute_reply":"2026-03-24T10:40:28.684476Z"}},"outputs":[],"execution_count":null},{"cell_type":"code","source":"","metadata":{"trusted":true},"outputs":[],"execution_count":null}]}
+</file>
+
+<file path="utils/extractViT.py">
+import torch
+import torch.nn as nn
+import timm
+import coremltools as ct
+
+class FastViTStudent(nn.Module):
+    # ĐỔI THÀNH 1024. Đừng có mơ tưởng về số 1280 nữa.
+    def __init__(self, model_name='fastvit_sa24', target_dim=1024):
+        super().__init__()
+        self.backbone = timm.create_model(model_name, pretrained=True, num_classes=0)
+
+        # Kích thước ảnh phải là 256x256 để khớp với lúc train
+        with torch.no_grad():
+            dummy_input = torch.randn(1, 3, 256, 256)
+            student_out_dim = self.backbone(dummy_input).shape[1]
+
+        self.proj = nn.Linear(student_out_dim, target_dim)
+
+    def forward(self, x):
+        features = self.backbone(x)
+        return self.proj(features)
+
+# 1. Khởi tạo lại cấu trúc Student. Nhớ truyền target_dim=1024 vào.
+model = FastViTStudent(target_dim=1024).to('cpu')
+
+# THAY TÊN FILE .pth NÀY thành cái file ông vừa train xong (ví dụ: fastvit_student_1024.pth)
+# Nếu ông vẫn để fastvit_wham_epoch_5.pth của bản cũ thì lỗi ráng chịu.
+model_weights_path = 'fastvit_student_1024.pth'
+model.load_state_dict(torch.load(model_weights_path, map_location='cpu'))
+model.eval()
+
+# 2. Tạo dữ liệu mẫu: BẮT BUỘC LÀ 256x256.
+# Báo cho thằng dev iOS (tức là ông) biết mà resize ảnh camera cho đúng.
+example_input = torch.rand(1, 3, 256, 256)
+
+# 3. Trace mô hình
+traced_model = torch.jit.trace(model, example_input)
+
+# 4. Convert sang CoreML
+mlmodel = ct.convert(
+    traced_model,
+    inputs=[ct.ImageType(shape=example_input.shape, name="image_input")],
+    # Đổi tên output cho chuẩn để code Swift trên iPhone dễ gọi
+    outputs=[ct.TensorType(name="features_1024")],
+    minimum_deployment_target=ct.target.iOS16
+)
+
+# 5. Lưu lại thành phẩm cuối cùng
+mlmodel.save("FastViT_WHAM_1024.mlpackage")
+print(">>> XONG! 'Quái thú' đã được nhốt vào FastViT_WHAM_1024.mlpackage. Sẵn sàng mang lên iPhone.")
+</file>
+
+<file path="utils/ExtractWHAM.ipynb">
+{
+  "nbformat": 4,
+  "nbformat_minor": 0,
+  "metadata": {
+    "colab": {
+      "provenance": [],
+      "gpuType": "T4"
+    },
+    "kernelspec": {
+      "name": "python3",
+      "display_name": "Python 3"
+    },
+    "language_info": {
+      "name": "python"
+    },
+    "accelerator": "GPU"
+  },
+  "cells": [
+    {
+      "cell_type": "code",
+      "execution_count": 1,
+      "metadata": {
+        "colab": {
+          "base_uri": "https://localhost:8080/"
+        },
+        "id": "ALS_4TahRKDs",
+        "outputId": "78856092-010e-41da-8914-590374b031ef"
+      },
+      "outputs": [
+        {
+          "output_type": "stream",
+          "name": "stdout",
+          "text": [
+            "fatal: destination path 'WHAM' already exists and is not an empty directory.\n",
+            "/content/WHAM\n"
+          ]
+        }
+      ],
+      "source": [
+        "!git clone https://github.com/yohanshin/WHAM.git\n",
+        "%cd WHAM"
+      ]
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "# 1. Tạo thư mục\n",
+        "!mkdir -p checkpoints\n",
+        "!mkdir -p dataset/body_models\n",
+        "\n",
+        "# 2. Tải file WHAM Checkpoint (Cái này là quan trọng nhất)\n",
+        "!pip install gdown\n",
+        "!gdown --id 19qkI-a6xuwob9_RFNSPWf1yWErwVVlks -O checkpoints/wham_vit_bedlam_w_3dpw.pth.tar\n",
+        "\n",
+        "# 3. Tải Auxiliary data (Mấy cái râu ria để chạy SMPL)\n",
+        "!gdown --id 1pbmzRbWGgae6noDIyQOnohzaVnX_csUZ -O dataset/body_models.tar.gz\n",
+        "!tar -xvf dataset/body_models.tar.gz -C dataset/"
+      ],
+      "metadata": {
+        "colab": {
+          "base_uri": "https://localhost:8080/"
+        },
+        "id": "jv1GsO07j0xg",
+        "outputId": "f8cc7f94-602e-46cb-bf15-5a857a287de1"
+      },
+      "execution_count": 2,
+      "outputs": [
+        {
+          "output_type": "stream",
+          "name": "stdout",
+          "text": [
+            "Requirement already satisfied: gdown in /usr/local/lib/python3.12/dist-packages (5.2.1)\n",
+            "Requirement already satisfied: beautifulsoup4 in /usr/local/lib/python3.12/dist-packages (from gdown) (4.13.5)\n",
+            "Requirement already satisfied: filelock in /usr/local/lib/python3.12/dist-packages (from gdown) (3.25.2)\n",
+            "Requirement already satisfied: requests[socks] in /usr/local/lib/python3.12/dist-packages (from gdown) (2.32.4)\n",
+            "Requirement already satisfied: tqdm in /usr/local/lib/python3.12/dist-packages (from gdown) (4.67.3)\n",
+            "Requirement already satisfied: soupsieve>1.2 in /usr/local/lib/python3.12/dist-packages (from beautifulsoup4->gdown) (2.8.3)\n",
+            "Requirement already satisfied: typing-extensions>=4.0.0 in /usr/local/lib/python3.12/dist-packages (from beautifulsoup4->gdown) (4.15.0)\n",
+            "Requirement already satisfied: charset_normalizer<4,>=2 in /usr/local/lib/python3.12/dist-packages (from requests[socks]->gdown) (3.4.6)\n",
+            "Requirement already satisfied: idna<4,>=2.5 in /usr/local/lib/python3.12/dist-packages (from requests[socks]->gdown) (3.11)\n",
+            "Requirement already satisfied: urllib3<3,>=1.21.1 in /usr/local/lib/python3.12/dist-packages (from requests[socks]->gdown) (2.5.0)\n",
+            "Requirement already satisfied: certifi>=2017.4.17 in /usr/local/lib/python3.12/dist-packages (from requests[socks]->gdown) (2026.2.25)\n",
+            "Requirement already satisfied: PySocks!=1.5.7,>=1.5.6 in /usr/local/lib/python3.12/dist-packages (from requests[socks]->gdown) (1.7.1)\n",
+            "/usr/local/lib/python3.12/dist-packages/gdown/__main__.py:139: FutureWarning: Option `--id` was deprecated in version 4.3.1 and will be removed in 5.0. You don't need to pass it anymore to use a file ID.\n",
+            "  warnings.warn(\n",
+            "Downloading...\n",
+            "From (original): https://drive.google.com/uc?id=19qkI-a6xuwob9_RFNSPWf1yWErwVVlks\n",
+            "From (redirected): https://drive.google.com/uc?id=19qkI-a6xuwob9_RFNSPWf1yWErwVVlks&confirm=t&uuid=d960a1a9-d9d1-4bf5-a48b-38190748ac6e\n",
+            "To: /content/WHAM/checkpoints/wham_vit_bedlam_w_3dpw.pth.tar\n",
+            "100% 527M/527M [00:04<00:00, 130MB/s]\n",
+            "/usr/local/lib/python3.12/dist-packages/gdown/__main__.py:139: FutureWarning: Option `--id` was deprecated in version 4.3.1 and will be removed in 5.0. You don't need to pass it anymore to use a file ID.\n",
+            "  warnings.warn(\n",
+            "Downloading...\n",
+            "From: https://drive.google.com/uc?id=1pbmzRbWGgae6noDIyQOnohzaVnX_csUZ\n",
+            "To: /content/WHAM/dataset/body_models.tar.gz\n",
+            "100% 964k/964k [00:00<00:00, 10.1MB/s]\n",
+            "body_models/\n",
+            "body_models/coco_aug_dict.pth\n",
+            "body_models/J_regressor_wham.npy\n",
+            "body_models/smpl_mean_params.npz\n",
+            "body_models/J_regressor_feet.npy\n",
+            "body_models/J_regressor_coco.npy\n",
+            "body_models/smplx2smpl.pkl\n",
+            "body_models/J_regressor_h36m.npy\n"
+          ]
+        }
+      ]
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "# 1. Tạo đúng cái \"chuồng\" mà model nó đòi\n",
+        "!mkdir -p /content/WHAM/dataset/body_models/smpl\n",
+        "\n",
+        "# 2. Tao sẽ dùng một cái mẹo: Nếu mày chưa có file SMPL_NEUTRAL.pkl xịn,\n",
+        "# tao sẽ chỉ mày cách lấy nó từ một nguồn public khác (vì mày đang khô máu mà)\n",
+        "!wget https://github.com/vchoutas/smplx/raw/master/models/smpl/SMPL_NEUTRAL.pkl -P /content/WHAM/dataset/body_models/smpl/\n",
+        "\n",
+        "# 3. Kiểm tra lại lần nữa\n",
+        "print(\"--- Check lại chuồng xem có 'xương' chưa ---\")\n",
+        "!ls -R /content/WHAM/dataset/body_models/smpl/"
+      ],
+      "metadata": {
+        "colab": {
+          "base_uri": "https://localhost:8080/"
+        },
+        "id": "dn0XDPIXUUZ4",
+        "outputId": "9c5a5c9c-2165-4886-ca40-13496f84339b"
+      },
+      "execution_count": 3,
+      "outputs": [
+        {
+          "output_type": "stream",
+          "name": "stdout",
+          "text": [
+            "--2026-03-23 12:39:30--  https://github.com/vchoutas/smplx/raw/master/models/smpl/SMPL_NEUTRAL.pkl\n",
+            "Resolving github.com (github.com)... 140.82.114.3\n",
+            "Connecting to github.com (github.com)|140.82.114.3|:443... connected.\n",
+            "HTTP request sent, awaiting response... 404 Not Found\n",
+            "2026-03-23 12:39:30 ERROR 404: Not Found.\n",
+            "\n",
+            "--- Check lại chuồng xem có 'xương' chưa ---\n",
+            "/content/WHAM/dataset/body_models/smpl/:\n",
+            "SMPL_NEUTRAL.pkl\n"
+          ]
+        }
+      ]
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "!pip install coremltools chumpy loguru smplx -q"
+      ],
+      "metadata": {
+        "id": "mRBTS8z0Ru3u"
+      },
+      "execution_count": 4,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "!pip install yacs"
+      ],
+      "metadata": {
+        "colab": {
+          "base_uri": "https://localhost:8080/"
+        },
+        "id": "K-pa8xMYh5Lu",
+        "outputId": "0a394e49-f4ab-49a8-d10d-59722ea98fce"
+      },
+      "execution_count": 5,
+      "outputs": [
+        {
+          "output_type": "stream",
+          "name": "stdout",
+          "text": [
+            "Requirement already satisfied: yacs in /usr/local/lib/python3.12/dist-packages (0.1.8)\n",
+            "Requirement already satisfied: PyYAML in /usr/local/lib/python3.12/dist-packages (from yacs) (6.0.3)\n"
+          ]
+        }
+      ]
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "import inspect\n",
+        "import torch\n",
+        "import torch.serialization\n",
+        "import numpy as np\n",
+        "import coremltools as ct\n",
+        "from coremltools.converters.mil import register_torch_op\n",
+        "from coremltools.converters.mil.mil import Builder as mb\n",
+        "import types\n",
+        "import warnings\n",
+        "\n",
+        "warnings.filterwarnings(\"ignore\")\n",
+        "\n",
+        "# ==========================================\n",
+        "# 1. TẨY RỬA MÔI TRƯỜNG & ĐỒ CỔ (Giữ nguyên)\n",
+        "# ==========================================\n",
+        "np.bool, np.int, np.float = bool, int, float\n",
+        "np.complex, np.object, np.unicode, np.str = complex, object, str, str\n",
+        "if not hasattr(inspect, 'getargspec'): inspect.getargspec = inspect.getfullargspec\n",
+        "if hasattr(torch.serialization, 'load'): torch.load = torch.serialization.load\n",
+        "torch.serialization.add_safe_globals([np.core.multiarray.scalar, np.dtype, np.ndarray])\n",
+        "_real_load = torch.serialization.load\n",
+        "def _safe_load(*args, **kwargs):\n",
+        "    kwargs['weights_only'] = False\n",
+        "    return _real_load(*args, **kwargs)\n",
+        "torch.load = _safe_load\n",
+        "\n",
+        "# ==========================================\n",
+        "# 2. VÁ LỖI TOÁN TỬ (.mT và view_as)\n",
+        "# ==========================================\n",
+        "@register_torch_op(override=True)\n",
+        "def mt(context, node):\n",
+        "    x = context[node.inputs[0]]\n",
+        "    perm = list(range(len(x.shape)))\n",
+        "    perm[-1], perm[-2] = perm[-2], perm[-1]\n",
+        "    return mb.transpose(x=x, perm=perm, name=node.name)\n",
+        "\n",
+        "@register_torch_op(override=True)\n",
+        "def view_as(context, node):\n",
+        "    x, y_ref = context[node.inputs[0]], context[node.inputs[1]]\n",
+        "    return mb.reshape(x=x, shape=mb.shape(x=y_ref), name=node.name)\n",
+        "\n",
+        "# ==========================================\n",
+        "# 3. KHỞI TẠO MÔ HÌNH (VỚI VŨ KHÍ MỚI)\n",
+        "# ==========================================\n",
+        "from configs.config import get_cfg_defaults\n",
+        "from lib.models import build_network, build_body_model\n",
+        "\n",
+        "print(\"1. Đang khởi tạo mô hình...\")\n",
+        "cfg = get_cfg_defaults()\n",
+        "cfg.merge_from_file('configs/yamls/demo.yaml')\n",
+        "smpl = build_body_model(cfg.DEVICE, 1)\n",
+        "network = build_network(cfg, smpl)\n",
+        "\n",
+        "# CHIẾN THUẬT \"VƯỜN KHÔNG NHÀ TRỐNG\":\n",
+        "# Vô hiệu hóa mọi thứ trong LSTM có thể khiến Apple \"ngứa tay\" tối ưu lỗi\n",
+        "for name, module in network.named_modules():\n",
+        "    if isinstance(module, torch.nn.LSTM):\n",
+        "        print(f\"--- Đang bảo vệ lớp LSTM: {name} ---\")\n",
+        "        module.dropout = 0\n",
+        "        # Ép buộc tính toán lại flat_weights để tránh lỗi bộ nhớ\n",
+        "        module.flatten_parameters()\n",
+        "\n",
+        "network.eval()\n",
+        "\n",
+        "# Vá lỗi masking\n",
+        "def patched_preprocess(self, x, mask):\n",
+        "    self.b, self.f = x.shape[:2]\n",
+        "    _mask = mask.bool().unsqueeze(-1).repeat(1, 1, 1, 2).reshape(self.b, self.f, -1)\n",
+        "    _mask = torch.cat((_mask, torch.zeros_like(_mask[..., :3])), dim=-1)\n",
+        "    _mask_emb = (mask.bool().unsqueeze(-1) * self.mask_embedding).reshape(self.b, self.f, -1)\n",
+        "    _mask_emb = torch.cat((_mask_emb, torch.zeros_like(_mask_emb[..., :3])), dim=-1)\n",
+        "    return torch.where(_mask, torch.zeros_like(x), x) + _mask_emb\n",
+        "\n",
+        "network.preprocess = types.MethodType(patched_preprocess, network)\n",
+        "\n",
+        "# ==========================================\n",
+        "# 4. TRACING & CONVERT (BẢN TRẢ THÙ: HACK RAM TẬN GỐC)\n",
+        "# ==========================================\n",
+        "import gc\n",
+        "import sys\n",
+        "\n",
+        "class CoreMLWrapper(torch.nn.Module):\n",
+        "    def __init__(self, model):\n",
+        "        super().__init__()\n",
+        "        self.model = model\n",
+        "    def forward(self, x, init_kp, init_smpl, img_features, mask, init_root, cam_angvel, cam_intrinsics, bbox, res):\n",
+        "        out = self.model(x, (init_kp, init_smpl), img_features, mask, init_root, cam_angvel, cam_intrinsics=cam_intrinsics, bbox=bbox, res=res, refine_traj=False)\n",
+        "        return (out['pose'], out['betas'], out['poses_root_world'], out['trans_world'])\n",
+        "\n",
+        "print(\"1. Đang đóng băng đồ thị (Tracing)...\")\n",
+        "dummy_args = (\n",
+        "    torch.randn(1, 81, 37), torch.randn(1, 1, 88), torch.randn(1, 1, 24, 6),\n",
+        "    torch.randn(1, 81, 1024), torch.ones(1, 81, 17, dtype=torch.bool),\n",
+        "    torch.randn(1, 1, 6), torch.randn(1, 81, 6),\n",
+        "    torch.eye(3).reshape(1, 1, 3, 3), torch.randn(1, 81, 3), torch.tensor([[1080.0, 1920.0]])\n",
+        ")\n",
+        "\n",
+        "wrapped_network = CoreMLWrapper(network).cpu()\n",
+        "traced_model = torch.jit.trace(wrapped_network, dummy_args, strict=False)\n",
+        "\n",
+        "print(\"2. Đang dọn rác RAM...\")\n",
+        "del network\n",
+        "del wrapped_network\n",
+        "gc.collect()\n",
+        "\n",
+        "# --- ĐẠI PHÁP HACK RAM: DIỆT BUG APPLE TỪ BỘ NHỚ ---\n",
+        "print(\"3. Đang chui vào RAM để tẩy trắng fuse_stack_split...\")\n",
+        "\n",
+        "# Ép CoreML load hết các module ngầm vào RAM\n",
+        "try: import coremltools.converters.mil.mil.passes.defs.common\n",
+        "except: pass\n",
+        "\n",
+        "patched = False\n",
+        "# Quét toàn bộ Object đang tồn tại trong RAM của Colab\n",
+        "for obj in gc.get_objects():\n",
+        "    if isinstance(obj, type): # Tìm các Class\n",
+        "        name = getattr(obj, '__name__', '').lower()\n",
+        "        if 'fuse_stack_split' in name:\n",
+        "            print(f\"🔥 ĐÃ TÚM CỔ ĐƯỢC KẺ THÙ: {obj.__name__}\")\n",
+        "            # Tẩy trắng toàn bộ não của nó\n",
+        "            setattr(obj, '__call__', lambda self, *args, **kwargs: None)\n",
+        "            setattr(obj, 'apply', lambda self, *args, **kwargs: None)\n",
+        "            patched = True\n",
+        "\n",
+        "if not patched:\n",
+        "    print(\"⚠️ Cảnh báo: Không tìm thấy bug, cầu nguyện Apple đã tự fix!\")\n",
+        "\n",
+        "print(\"4. Bắt đầu Convert (Để mặc định cho Xcode tạo Schema, ép FP16 chống OOM)...\")\n",
+        "input_specs = [ct.TensorType(name=f\"in_{i}\", shape=arg.shape) for i, arg in enumerate(dummy_args)]\n",
+        "\n",
+        "# Ép luôn tên Output xịn xò vào Schema để Xcode sướng mắt\n",
+        "output_specs = [\n",
+        "    ct.TensorType(name=\"pose_6d\"),\n",
+        "    ct.TensorType(name=\"shape_betas\"),\n",
+        "    ct.TensorType(name=\"world_rotation\"),\n",
+        "    ct.TensorType(name=\"world_translation\")\n",
+        "]\n",
+        "\n",
+        "# LƯU Ý: KHÔNG DÙNG EMPTY NỮA. Để nó chạy pipeline sinh Metadata!\n",
+        "mlmodel = ct.convert(\n",
+        "    traced_model,\n",
+        "    inputs=input_specs,\n",
+        "    outputs=output_specs,\n",
+        "    convert_to=\"mlprogram\",\n",
+        "    compute_precision=ct.precision.FLOAT16\n",
+        ")\n",
+        "\n",
+        "print(\"5. Dọn dẹp Metadata lần cuối...\")\n",
+        "mlmodel.author = \"Long\"\n",
+        "mlmodel.short_description = \"WHAM 3D Human Pose - Vượt Kiếp Nạn\"\n",
+        "\n",
+        "print(\"6. Lưu file...\")\n",
+        "mlmodel.save(\"WHAM_FINAL_VICTORY.mlpackage\")\n",
+        "print(\"🎉 ĐẠI CÔNG CÁO THÀNH! Tải ngay và ném vào Xcode đi ông!!!\")"
+      ],
+      "metadata": {
+        "colab": {
+          "base_uri": "https://localhost:8080/"
+        },
+        "id": "OO2tiFwanSs_",
+        "outputId": "49b04004-cbda-4dd8-e68e-3965c1812455"
+      },
+      "execution_count": 6,
+      "outputs": [
+        {
+          "output_type": "stream",
+          "name": "stderr",
+          "text": [
+            "WARNING:coremltools:scikit-learn version 1.6.1 is not supported. Minimum required version: 0.17. Maximum required version: 1.5.1. Disabling scikit-learn conversion API.\n",
+            "WARNING:coremltools:XGBoost version 3.2.0 has not been tested with coremltools. You may run into unexpected errors. XGBoost 1.4.2 is the most recent version that has been tested.\n",
+            "WARNING:coremltools:TensorFlow version 2.19.0 has not been tested with coremltools. You may run into unexpected errors. TensorFlow 2.12.0 is the most recent version that has been tested.\n",
+            "WARNING:coremltools:Torch version 2.10.0+cu128 has not been tested with coremltools. You may run into unexpected errors. Torch 2.7.0 is the most recent version that has been tested.\n",
+            "WARNING:coremltools:Failed to load _MLModelProxy: No module named 'coremltools.libcoremlpython'\n",
+            "WARNING:coremltools:Failed to load _MLCPUComputeDeviceProxy: No module named 'coremltools.libcoremlpython'\n",
+            "WARNING:coremltools:Failed to load _MLGPUComputeDeviceProxy: No module named 'coremltools.libcoremlpython'\n",
+            "WARNING:coremltools:Failed to load _MLNeuralEngineComputeDeviceProxy: No module named 'coremltools.libcoremlpython'\n",
+            "WARNING:coremltools:Failed to load _MLModelProxy: No module named 'coremltools.libcoremlpython'\n",
+            "WARNING:coremltools:Failed to load _MLComputePlanProxy: No module named 'coremltools.libcoremlpython'\n",
+            "WARNING:coremltools:Failed to load _MLModelProxy: No module named 'coremltools.libcoremlpython'\n",
+            "WARNING:coremltools:Failed to load _MLModelAssetProxy: No module named 'coremltools.libcoremlpython'\n"
+          ]
+        },
+        {
+          "output_type": "stream",
+          "name": "stdout",
+          "text": [
+            "1. Đang khởi tạo mô hình...\n"
+          ]
+        },
+        {
+          "output_type": "stream",
+          "name": "stderr",
+          "text": [
+            "\u001b[32m2026-03-23 12:40:11.491\u001b[0m | \u001b[1mINFO    \u001b[0m | \u001b[36mlib.models\u001b[0m:\u001b[36mbuild_network\u001b[0m:\u001b[36m36\u001b[0m - \u001b[1m=> loaded checkpoint 'checkpoints/wham_vit_bedlam_w_3dpw.pth.tar' \u001b[0m\n",
+            "WARNING:coremltools:Model is not in eval mode. Consider calling '.eval()' on your model prior to conversion\n",
+            "WARNING:coremltools:Tuple detected at graph output. This will be flattened in the converted model.\n",
+            "Converting PyTorch Frontend ==> MIL Ops: 100%|█████████▉| 4561/4563 [00:10<00:00, 442.31 ops/s]\n",
+            "Running MIL frontend_pytorch pipeline: 100%|██████████| 5/5 [00:03<00:00,  1.64 passes/s]\n",
+            "Running MIL default pipeline: 100%|██████████| 95/95 [01:52<00:00,  1.18s/ passes]\n",
+            "Running MIL backend_mlprogram pipeline: 100%|██████████| 12/12 [00:03<00:00,  3.49 passes/s]\n"
+          ]
+        }
+      ]
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "import os\n",
+        "\n",
+        "# 1. Nén cái folder thành file .zip\n",
+        "os.system(\"zip -r WHAM_Final_iOS.zip WHAM_FINAL_VICTORY.mlpackage\")\n",
+        "\n",
+        "# 2. Kích hoạt lệnh tải xuống của Colab\n",
+        "from google.colab import files\n",
+        "files.download(\"WHAM_Final_iOS.zip\")"
+      ],
+      "metadata": {
+        "colab": {
+          "base_uri": "https://localhost:8080/",
+          "height": 17
+        },
+        "id": "vQAUDy1is9Rw",
+        "outputId": "ba4624c1-9ae7-440b-95a1-e315eaee85c6"
+      },
+      "execution_count": 8,
+      "outputs": [
+        {
+          "output_type": "display_data",
+          "data": {
+            "text/plain": [
+              "<IPython.core.display.Javascript object>"
+            ],
+            "application/javascript": [
+              "\n",
+              "    async function download(id, filename, size) {\n",
+              "      if (!google.colab.kernel.accessAllowed) {\n",
+              "        return;\n",
+              "      }\n",
+              "      const div = document.createElement('div');\n",
+              "      const label = document.createElement('label');\n",
+              "      label.textContent = `Downloading \"${filename}\": `;\n",
+              "      div.appendChild(label);\n",
+              "      const progress = document.createElement('progress');\n",
+              "      progress.max = size;\n",
+              "      div.appendChild(progress);\n",
+              "      document.body.appendChild(div);\n",
+              "\n",
+              "      const buffers = [];\n",
+              "      let downloaded = 0;\n",
+              "\n",
+              "      const channel = await google.colab.kernel.comms.open(id);\n",
+              "      // Send a message to notify the kernel that we're ready.\n",
+              "      channel.send({})\n",
+              "\n",
+              "      for await (const message of channel.messages) {\n",
+              "        // Send a message to notify the kernel that we're ready.\n",
+              "        channel.send({})\n",
+              "        if (message.buffers) {\n",
+              "          for (const buffer of message.buffers) {\n",
+              "            buffers.push(buffer);\n",
+              "            downloaded += buffer.byteLength;\n",
+              "            progress.value = downloaded;\n",
+              "          }\n",
+              "        }\n",
+              "      }\n",
+              "      const blob = new Blob(buffers, {type: 'application/binary'});\n",
+              "      const a = document.createElement('a');\n",
+              "      a.href = window.URL.createObjectURL(blob);\n",
+              "      a.download = filename;\n",
+              "      div.appendChild(a);\n",
+              "      a.click();\n",
+              "      div.remove();\n",
+              "    }\n",
+              "  "
+            ]
+          },
+          "metadata": {}
+        },
+        {
+          "output_type": "display_data",
+          "data": {
+            "text/plain": [
+              "<IPython.core.display.Javascript object>"
+            ],
+            "application/javascript": [
+              "download(\"download_642ea1ec-6f41-406c-a5e4-5d7b71e95740\", \"WHAM_Final_iOS.zip\", 391895184)"
+            ]
+          },
+          "metadata": {}
+        }
+      ]
+    },
+    {
+      "cell_type": "code",
+      "source": [],
+      "metadata": {
+        "id": "GLFZ5I7CATLh"
+      },
+      "execution_count": 7,
+      "outputs": []
+    }
+  ]
+}
+</file>
+
+<file path="utils/quantize.py">
+import coremltools as ct
+from coremltools.optimize.coreml import OptimizationConfig
+import gc
+
+print("1. Đang chui vào RAM để bịt mõm 'fuse_stack_split' của Apple...")
+try:
+    import coremltools.converters.mil.mil.passes.defs.common
+except:
+    pass
+
+patched = False
+for obj in gc.get_objects():
+    if isinstance(obj, type):
+        name = getattr(obj, '__name__', '').lower()
+        if 'fuse_stack_split' in name:
+            setattr(obj, '__call__', lambda self, *args, **kwargs: None)
+            setattr(obj, 'apply', lambda self, *args, **kwargs: None)
+            patched = True
+            print("🔥 Đã khóa mõm fuse_stack_split thành công!")
+
+print("2. Load model và bắt đầu lượng tử hóa (Int8)...")
+model = ct.models.MLModel("WHAM.mlpackage")
+
+# --- SỬA LỖI TREO MÁY Ở ĐÂY ---
+# Chỉ định luật lượng tử hóa
+op_config = ct.optimize.coreml.OpLinearQuantizerConfig(
+    mode="linear_symmetric",
+    weight_threshold=512
+)
+
+# Áp dụng luật này ĐỘC QUYỀN cho các layer Linear và MatMul (tránh các layer 0-weight)
+config = OptimizationConfig(
+    op_type_configs={
+        "linear": op_config,
+        "matmul": op_config
+    }
+)
+
+compressed_model = ct.optimize.coreml.linear_quantize_weights(
+    model,
+    config=config
+)
+
+print("3. Đang lưu lại bản siêu nhẹ...")
+compressed_model.save("WHAM_Int8.mlpackage")
+print("🎉 ĐẠI CÔNG CÁO THÀNH! Lấy WHAM_Int8.mlpackage ném vào Xcode đi.")
+</file>
+
+<file path="WhamApp/WhamApp/Assets.xcassets/AccentColor.colorset/Contents.json">
+{
+  "colors" : [
+    {
+      "idiom" : "universal"
+    }
+  ],
+  "info" : {
+    "author" : "xcode",
+    "version" : 1
+  }
+}
+</file>
+
+<file path="WhamApp/WhamApp/Assets.xcassets/AppIcon.appiconset/Contents.json">
+{
+  "images" : [
+    {
+      "idiom" : "universal",
+      "platform" : "ios",
+      "size" : "1024x1024"
+    },
+    {
+      "appearances" : [
+        {
+          "appearance" : "luminosity",
+          "value" : "dark"
+        }
+      ],
+      "idiom" : "universal",
+      "platform" : "ios",
+      "size" : "1024x1024"
+    },
+    {
+      "appearances" : [
+        {
+          "appearance" : "luminosity",
+          "value" : "tinted"
+        }
+      ],
+      "idiom" : "universal",
+      "platform" : "ios",
+      "size" : "1024x1024"
+    }
+  ],
+  "info" : {
+    "author" : "xcode",
+    "version" : 1
+  }
+}
+</file>
+
+<file path="WhamApp/WhamApp/Assets.xcassets/Contents.json">
+{
+  "info" : {
+    "author" : "xcode",
+    "version" : 1
+  }
+}
+</file>
+
+<file path="WhamApp/WhamApp/yolov8n-pose.mlpackage/Manifest.json">
+{
+    "fileFormatVersion": "1.0.0",
+    "itemInfoEntries": {
+        "3a7b98d8-df72-4ad4-953d-96022d56cd7c": {
+            "author": "com.apple.CoreML",
+            "description": "CoreML Model Specification",
+            "name": "model.mlmodel",
+            "path": "com.apple.CoreML/model.mlmodel"
+        },
+        "988731d4-af8d-4942-8b5f-34c6ef188ef6": {
+            "author": "com.apple.CoreML",
+            "description": "CoreML Model Weights",
+            "name": "weights",
+            "path": "com.apple.CoreML/weights"
+        }
+    },
+    "rootModelIdentifier": "3a7b98d8-df72-4ad4-953d-96022d56cd7c"
+}
+</file>
+
+<file path="WhamApp/WhamApp/ARViewContainer.swift">
+//
+//  ARViewContainer.swift
+//  WhamApp
+//
+//  Created by admin on 20/3/26.
+//
+
+import SwiftUI
+import ARKit
+
+struct ARViewContainer: UIViewRepresentable {
+    let session: ARSession
+
+    func makeUIView(context: Context) -> ARSCNView {
+        let view = ARSCNView()
+        view.session = session
+        view.antialiasingMode = .multisampling4X
+        view.automaticallyUpdatesLighting = true
+        return view
+    }
+
+    func updateUIView(_ uiView: ARSCNView, context: Context) {}
+}
+</file>
+
+<file path="WhamApp/WhamApp/ARWhamManager.swift">
+//
+//  ARWhamManager.swift
+//  WhamApp
+//
+//  Created by admin on 20/3/26.
+//
+
+import ARKit
+import AVFoundation
+import SwiftUI
+
+class ARWhamManager: NSObject, ARSessionDelegate, ObservableObject {
+    @Published var isRecording = false
+    @Published var recordedSeconds: Int = 0
+    @Published var lastThumbnail: UIImage?
+    
+    let session = ARSession()
+    private let dataQueue = DispatchQueue(label: "com.wham.record", qos: .userInitiated)
+    private var slmData: [[String: Any]] = []
+    private var currentID: UUID?
+    private var timer: Timer?
+    
+    // --- AVFoundation Core ---
+    private var assetWriter: AVAssetWriter?
+    private var assetWriterInput: AVAssetWriterInput?
+    private var pixelBufferAdaptor: AVAssetWriterInputPixelBufferAdaptor?
+    private var isReadyToRecord = false // Cờ hiệu quan trọng nhất
+    
+    var formattedTime: String {
+        let m = recordedSeconds / 60, s = recordedSeconds % 60
+        return String(format: "%02d:%02d", m, s)
+    }
+
+    override init() {
+        super.init()
+        session.delegate = self
+        resetTracking()
+        loadLatestThumbnail()
+    }
+
+    func resetTracking() {
+        let config = ARWorldTrackingConfiguration()
+        config.planeDetection = [.horizontal]
+        session.run(config, options: [.resetTracking, .removeExistingAnchors])
+    }
+
+    func toggleRecording() { isRecording ? stop() : start() }
+    func pause() { session.pause() }
+    func resume() { resetTracking() }
+
+    private func start() {
+        let id = UUID()
+        currentID = id
+        slmData.removeAll()
+        recordedSeconds = 0
+        isReadyToRecord = false // Reset cờ hiệu
+        
+        setupWriter(id: id)
+        
+        // Chỉ bật ghi âm sau khi setupWriter đã gọi startWriting()
+        isRecording = true
+        
+        timer = Timer.scheduledTimer(withTimeInterval: 1.0, repeats: true) { _ in
+            self.recordedSeconds += 1
+        }
+    }
+
+    private func stop() {
+        isRecording = false
+        timer?.invalidate()
+        
+        // Dọn dẹp AssetWriter
+        assetWriterInput?.markAsFinished()
+        assetWriter?.finishWriting { [weak self] in
+            guard let self = self, let id = self.currentID else { return }
+            self.saveRawSLAM(id: id)
+            DispatchQueue.main.async { self.loadLatestThumbnail() }
+        }
+    }
+
+    // --- HÀM XỬ LÝ FRAME (ĐÃ FIX CRASH) ---
+    func session(_ session: ARSession, didUpdate frame: ARFrame) {
+        autoreleasepool {
+            guard isRecording else { return }
+            
+            let ts = frame.timestamp
+            let mat = frame.camera.transform
+            let buffer = frame.capturedImage
+            let presentationTime = CMTime(seconds: ts, preferredTimescale: 1000000)
+
+            // 1. Lưu SLAM (Chạy trên queue ngầm cho nhẹ máy)
+            dataQueue.async { [weak self] in
+                let pos = mat.columns.3
+                let point: [String: Any] = [
+                    "t": ts,
+                    "pos": ["x": pos.x, "y": pos.y, "z": pos.z],
+                    "m": [
+                        mat.columns.0.x, mat.columns.0.y, mat.columns.0.z, mat.columns.0.w,
+                        mat.columns.1.x, mat.columns.1.y, mat.columns.1.z, mat.columns.1.w,
+                        mat.columns.2.x, mat.columns.2.y, mat.columns.2.z, mat.columns.2.w,
+                        mat.columns.3.x, mat.columns.3.y, mat.columns.3.z, mat.columns.3.w
+                    ]
+                ]
+                DispatchQueue.main.async { self?.slmData.append(point) }
+            }
+
+            // 2. Ghi Video (Bảo vệ nghiêm ngặt bằng Status Check)
+            guard let writer = assetWriter,
+                  let input = assetWriterInput,
+                  let adaptor = pixelBufferAdaptor else { return }
+            
+            // CHỐT CHẶN 1: Phải ở trạng thái .writing mới được làm việc
+            if writer.status == .writing {
+                // CHỐT CHẶN 2: Khởi tạo Session ngay frame đầu tiên
+                if !isReadyToRecord {
+                    writer.startSession(atSourceTime: presentationTime)
+                    isReadyToRecord = true
+                }
+                
+                // CHỐT CHẶN 3: Chỉ ghi khi input sẵn sàng
+                if input.isReadyForMoreMediaData {
+                    adaptor.append(buffer, withPresentationTime: presentationTime)
+                }
+            } else if writer.status == .failed {
+                print("❌ Writer Failed: \(writer.error?.localizedDescription ?? "Unknown")")
+            }
+        }
+    }
+
+    private func setupWriter(id: UUID) {
+        let url = getURL(id: id, ext: "mp4")
+        try? FileManager.default.removeItem(at: url)
+        
+        do {
+            assetWriter = try AVAssetWriter(outputURL: url, fileType: .mp4)
+            
+            // Thiết lập cấu hình Video 720p chuẩn cho WHAM
+            let settings: [String: Any] = [
+                AVVideoCodecKey: AVVideoCodecType.h264,
+                AVVideoWidthKey: 1920,
+                AVVideoHeightKey: 1440
+            ]
+            
+            assetWriterInput = AVAssetWriterInput(mediaType: .video, outputSettings: settings)
+            assetWriterInput?.transform = CGAffineTransform(rotationAngle: .pi / 2)
+            assetWriterInput?.expectsMediaDataInRealTime = true // Quan trọng cho ARKit
+            
+            if let input = assetWriterInput {
+                // Thêm Adaptor để "bơm" frame vào
+                pixelBufferAdaptor = AVAssetWriterInputPixelBufferAdaptor(
+                    assetWriterInput: input,
+                    sourcePixelBufferAttributes: [
+                        kCVPixelBufferPixelFormatTypeKey as String: Int(kCVPixelFormatType_32BGRA)
+                    ]
+                )
+                
+                if assetWriter!.canAdd(input) {
+                    assetWriter!.add(input)
+                }
+            }
+            
+            // Kích hoạt ngay lập tức
+            assetWriter?.startWriting()
+            
+        } catch {
+            print("❌ Setup Writer thất bại: \(error)")
+        }
+    }
+
+    private func saveRawSLAM(id: UUID) {
+        let url = getURL(id: id, ext: "json")
+        if let data = try? JSONSerialization.data(withJSONObject: slmData, options: []) {
+            try? data.write(to: url)
+            print("✅ Đã lưu SLAM thô: \(slmData.count) frames")
+        }
+    }
+
+    func loadLatestThumbnail() {
+        let docs = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0]
+        let files = try? FileManager.default.contentsOfDirectory(at: docs, includingPropertiesForKeys: [.creationDateKey])
+        if let url = files?.filter({ $0.pathExtension == "mp4" }).sorted(by: {
+            (try? $0.resourceValues(forKeys: [.creationDateKey]))?.creationDate ?? .distantPast >
+            (try? $1.resourceValues(forKeys: [.creationDateKey]))?.creationDate ?? .distantPast }).first {
+            let gen = AVAssetImageGenerator(asset: AVURLAsset(url: url))
+            gen.appliesPreferredTrackTransform = true
+            gen.generateCGImagesAsynchronously(forTimes: [NSValue(time: .zero)]) { _, cg, _, _, _ in
+                if let cg = cg { DispatchQueue.main.async { self.lastThumbnail = UIImage(cgImage: cg) } }
+            }
+        }
+    }
+
+    func getURL(id: UUID, ext: String) -> URL {
+        FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0].appendingPathComponent("\(id.uuidString).\(ext)")
+    }
+}
+</file>
+
+<file path="WhamApp/WhamApp/CameraPreview.swift">
+//
+//  Untitled.swift
+//  WhamApp
+//
+//  Created by admin on 20/3/26.
+//
+
+import SwiftUI
+import AVFoundation
+
+struct CameraPreview: UIViewRepresentable {
+    let session: AVCaptureSession
+
+    func makeUIView(context: Context) -> UIView {
+        let view = UIView(frame: UIScreen.main.bounds)
+        let previewLayer = AVCaptureVideoPreviewLayer(session: session)
+        previewLayer.frame = view.frame
+        previewLayer.videoGravity = .resizeAspectFill
+        view.layer.addSublayer(previewLayer)
+        return view
+    }
+
+    func updateUIView(_ uiView: UIView, context: Context) {}
+}
+</file>
+
+<file path="WhamApp/WhamApp/ContentView.swift">
+//
+//  ContentView.swift
+//  WhamApp
+//
+//  Created by admin on 20/3/26.
+//
+
+import SwiftUI
+
+struct MainCameraView: View {
+    // Chuyển sang dùng ARWhamManager để lấy dữ liệu SLAM
+    @StateObject var manager = ARWhamManager()
+    @State private var isShowingLibrary = false
+
+    var body: some View {
+        ZStack {
+            // Lớp nền ARKit - Cửa sổ nhìn vào không gian 3D
+            ARViewContainer(session: manager.session)
+                .ignoresSafeArea()
+            
+            // Lớp Overlay: Timer (Chỉ hiện khi đang quay)
+            if manager.isRecording {
+                VStack {
+                    Text(manager.formattedTime)
+                        .font(.system(size: 24, weight: .bold, design: .monospaced))
+                        .foregroundColor(.white)
+                        .padding(.horizontal, 15)
+                        .padding(.vertical, 5)
+                        .background(Color.black.opacity(0.6))
+                        .cornerRadius(10)
+                        .padding(.top, 60)
+                    Spacer()
+                }
+            }
+
+            // Lớp Overlay: Control Panel (Nút Lib và Nút Record)
+            VStack {
+                Spacer()
+                
+                // Trạng thái ARKit (Giúp mày biết khi nào SLAM đã sẵn sàng)
+                // WHAM cần World Tracking ổn định để không trượt chân
+                if !manager.isRecording {
+                    Text("Di chuyển iPhone để calibrate SLAM...")
+                        .font(.caption)
+                        .foregroundColor(.white)
+                        .padding(5)
+                        .background(Color.black.opacity(0.4))
+                        .cornerRadius(5)
+                        .padding(.bottom, 10)
+                }
+
+                HStack(spacing: 40) {
+                    // Nút mở Thư viện (Hiện ảnh của video mới nhất)
+                    Button(action: { isShowingLibrary = true }) {
+                        Group {
+                            if let thumb = manager.lastThumbnail {
+                                Image(uiImage: thumb)
+                                    .resizable()
+                                    .aspectRatio(contentMode: .fill)
+                            } else {
+                                Color.black.opacity(0.5)
+                            }
+                        }
+                        .frame(width: 65, height: 65)
+                        .cornerRadius(12)
+                        .overlay(RoundedRectangle(cornerRadius: 12).stroke(Color.white, lineWidth: 2))
+                        .clipped()
+                    }
+                    
+                    // Nút Record chính giữa
+                    Button(action: {
+                        manager.toggleRecording()
+                    }) {
+                        ZStack {
+                            Circle()
+                                .stroke(Color.white, lineWidth: 4)
+                                .frame(width: 80, height: 80)
+                            
+                            if manager.isRecording {
+                                RoundedRectangle(cornerRadius: 6)
+                                    .fill(Color.red)
+                                    .frame(width: 35, height: 35)
+                            } else {
+                                Circle()
+                                    .fill(Color.red)
+                                    .frame(width: 68, height: 68)
+                            }
+                        }
+                    }
+                    
+                    // Nút Reset Tracking (Phòng trường hợp SLAM bị ngáo)
+                    Button(action: { manager.resetTracking() }) {
+                        Image(systemName: "arrow.counterclockwise.circle")
+                            .font(.system(size: 30))
+                            .foregroundColor(.white)
+                    }
+                }
+                .padding(.bottom, 40)
+            }
+        }
+        // Vuốt lên để xem thư viện video đã quay
+        .sheet(isPresented: $isShowingLibrary, onDismiss: { manager.resume() }) {
+            VideoLibraryView()
+                .onAppear{ manager.pause() }
+        }
+    }
+}
+
+// Cấu trúc mặc định của file ContentView trong Xcode
+struct ContentView: View {
+    var body: some View {
+        MainCameraView()
+    }
+}
+</file>
+
+<file path="WhamApp/WhamApp/PoseDetector.swift">
+//
+//  PoseDetector.swift
+//  WhamApp
+//
+
+import Vision
+import CoreML
+import UIKit
+import CoreImage // Phải có cái này để dùng CIImage resize
+
+class PoseDetector {
+    private var model: yolov8n_pose?
+    
+    // Khởi tạo một context dùng chung để tận dụng sức mạnh GPU ép size ảnh
+    private let ciContext = CIContext()
+
+    init() {
+        let config = MLModelConfiguration()
+        config.computeUnits = .all
+        do {
+            self.model = try yolov8n_pose(configuration: config)
+        } catch {
+            print("❌ Lỗi load YOLOv8-Pose: \(error)")
+        }
+    }
+
+    struct Detection {
+        let box: CGRect
+        let keypoints: [CGPoint]
+        let confidence: Float
+    }
+
+    func detect(pixelBuffer: CVPixelBuffer) -> [Detection] {
+        guard let model = model else { return [] }
+        
+        // SỬA LỖI Ở ĐÂY: Ép size về đúng 640x640 (kích thước chuẩn của YOLOv8)
+        guard let resizedBuffer = resizePixelBuffer(pixelBuffer, targetWidth: 640, targetHeight: 640) else {
+            print("❌ Không thể ép size ảnh")
+            return []
+        }
+        
+        do {
+            // Nhét cái ảnh đã resize vào
+            let input = yolov8n_poseInput(image: resizedBuffer)
+            let output = try model.prediction(input: input)
+            
+            // LƯU Ý: Tên var_1033 có thể thay đổi tùy bản export.
+            // Nếu Xcode báo lỗi chỗ này, hãy gõ "output." rồi đợi nó gợi ý tên đúng.
+            return parseYOLOOutput(output.var_1033)
+        } catch {
+            print("❌ YOLO Inference Error: \(error)")
+            return []
+        }
+    }
+
+    func detectAsync(pixelBuffer: CVPixelBuffer) async -> [Detection] {
+        return detect(pixelBuffer: pixelBuffer)
+    }
+
+    // --- BỘ NHAI ẢNH CỦA GPU ---
+    private func resizePixelBuffer(_ buffer: CVPixelBuffer, targetWidth: Int, targetHeight: Int) -> CVPixelBuffer? {
+        let ciImage = CIImage(cvPixelBuffer: buffer)
+        
+        let scaleX = CGFloat(targetWidth) / CGFloat(CVPixelBufferGetWidth(buffer))
+        let scaleY = CGFloat(targetHeight) / CGFloat(CVPixelBufferGetHeight(buffer))
+        let resized = ciImage.transformed(by: CGAffineTransform(scaleX: scaleX, y: scaleY))
+        
+        var newBuffer: CVPixelBuffer?
+        let attrs = [
+            kCVPixelBufferCGImageCompatibilityKey: kCFBooleanTrue,
+            kCVPixelBufferCGBitmapContextCompatibilityKey: kCFBooleanTrue
+        ] as CFDictionary
+        
+        let status = CVPixelBufferCreate(kCFAllocatorDefault, targetWidth, targetHeight, kCVPixelFormatType_32BGRA, attrs, &newBuffer)
+        
+        if status == kCVReturnSuccess, let nb = newBuffer {
+            ciContext.render(resized, to: nb)
+            return nb
+        }
+        return nil
+    }
+
+    // --- LOGIC PARSE GIỮ NGUYÊN ---
+    private func parseYOLOOutput(_ output: MLMultiArray) -> [Detection] {
+        var detections: [Detection] = []
+        let numDetections = output.shape[2].intValue
+        var bestScore: Float = 0
+        var bestIdx = -1
+
+        for i in 0..<numDetections {
+            let score = output[[0, 4, i] as [NSNumber]].floatValue
+            if score > 0.5 && score > bestScore {
+                bestScore = score
+                bestIdx = i
+            }
+        }
+
+        if bestIdx != -1 {
+            let cx = output[[0, 0, bestIdx] as [NSNumber]].doubleValue / 640.0
+            let cy = output[[0, 1, bestIdx] as [NSNumber]].doubleValue / 640.0
+            let w = output[[0, 2, bestIdx] as [NSNumber]].doubleValue / 640.0
+            let h = output[[0, 3, bestIdx] as [NSNumber]].doubleValue / 640.0
+            
+            let rect = CGRect(x: cx - w/2, y: cy - h/2, width: w, height: h)
+            
+            var kpts: [CGPoint] = []
+            for j in 0..<17 {
+                let kx = output[[0, 5 + j*3, bestIdx] as [NSNumber]].doubleValue / 640.0
+                let ky = output[[0, 5 + j*3 + 1, bestIdx] as [NSNumber]].doubleValue / 640.0
+                kpts.append(CGPoint(x: kx, y: ky))
+            }
+            
+            detections.append(Detection(box: rect, keypoints: kpts, confidence: bestScore))
+        }
+        
+        return detections
+    }
+}
+</file>
+
+<file path="WhamApp/WhamApp/Skeleton3DEngine.swift">
+//
+//  Skeleton3DEngine.swift
+//  WhamApp
+//
+//  Created by admin on 21/3/26.
+//
+
+import SceneKit
+import Vision
+
+class Skeleton3DEngine: ObservableObject {
+    let scene = SCNScene()
+    let cameraNode = SCNNode()
+    private var jointNodes: [String: SCNNode] = [:]
+    
+    init() {
+        setupScene()
+    }
+    
+    private func setupScene() {
+        scene.background.contents = UIColor.black
+        
+        cameraNode.camera = SCNCamera()
+        cameraNode.position = SCNVector3(x: 0, y: 0, z: 5) // Đứng xa ra để nhìn toàn cảnh
+        scene.rootNode.addChildNode(cameraNode)
+        
+        // Tạo sẵn các "khớp xương" là các hình cầu nhỏ
+        let joints = ["nose", "left_shoulder", "right_shoulder", "left_elbow", "right_elbow",
+                      "left_wrist", "right_wrist", "left_hip", "right_hip",
+                      "left_knee", "right_knee", "left_ankle", "right_ankle"]
+        
+        for joint in joints {
+            let node = SCNNode(geometry: SCNSphere(radius: 0.05))
+            node.geometry?.firstMaterial?.diffuse.contents = UIColor.green
+            jointNodes[joint] = node
+            scene.rootNode.addChildNode(node)
+        }
+    }
+    
+    // Cập nhật vị trí người que từ dữ liệu 2D sang 3D
+    func updatePose(kpts: [String: [Double]]) {
+        // Tính toán "Độ sâu giả định" (Z)
+        // Nếu khoảng cách vai rộng -> người ở gần (Z nhỏ)
+        var depth: Float = 0.0
+        if let ls = kpts["left_shoulder"], let rs = kpts["right_shoulder"] {
+            let dist = sqrt(pow(ls[0] - rs[0], 2) + pow(ls[1] - rs[1], 2))
+            depth = Float(1.0 / dist) // Công thức "bốc phét" nhưng hiệu quả
+        }
+        
+        for (name, node) in jointNodes {
+            if let data = kpts[name] {
+                // Chuyển tọa độ 0->1 của Vision sang hệ 3D của SceneKit
+                let x = Float(data[0] - 0.5) * 2.0
+                let y = Float(0.5 - data[1]) * 3.5
+                let z = -depth // Đẩy ra xa theo trục Z
+                
+                SCNTransaction.begin()
+                SCNTransaction.animationDuration = 0.05
+                node.position = SCNVector3(x, y, z)
+                SCNTransaction.commit()
+            }
+        }
+    }
+}
+</file>
+
+<file path="WhamApp/WhamApp/VideoDetailView.swift">
+//
+//  VideoDetailView.swift
+//  WhamApp
+//
+//  Created by admin on 20/3/26.
+//
+
+import SwiftUI
+import AVFoundation
+
+struct VideoDetailView: View {
+    let video: VideoModel
+    
+    // Khởi tạo đúng class WhamAnalyzer
+    @StateObject private var analyzer = WhamAnalyzer()
+    
+    @State private var jsonContent: String = "Đang tải dữ liệu..."
+    @State private var frameCount: Int = 0
+    
+    @StateObject private var engine = Skeleton3DEngine()
+
+    var body: some View {
+        VStack(alignment: .leading, spacing: 0) {
+            
+            // 1. Header: Thông tin file
+            VStack(alignment: .leading, spacing: 8) {
+                Text("FILE: \(video.url.lastPathComponent)")
+                    .font(.system(size: 12, weight: .bold, design: .monospaced))
+                    .foregroundColor(.secondary)
+                
+                HStack {
+                    Text("SLAM: \(video.hasGyro ? "✅ SẴN SÀNG" : "❌ THIẾU")")
+                    Spacer()
+                    Text("\(frameCount) FRAMES").monospaced()
+                }
+                .font(.headline)
+            }
+            .padding()
+            .background(Color.secondary.opacity(0.1))
+
+            Divider()
+            // Tìm chỗ hiển thị ảnh debug trong VideoDetailView, thay bằng:
+            if let debugImg = analyzer.debugImage {
+                VStack(alignment: .leading, spacing: 8) {
+                    Text("TẦM NHÌN CỦA AI (FRAME 10):")
+                        .font(.system(size: 10, weight: .bold, design: .monospaced))
+                        .foregroundColor(.red)
+                        .padding(.horizontal)
+
+                    Image(uiImage: debugImg)
+                        .resizable()
+                        .aspectRatio(contentMode: .fit)
+                        .background(Color.black)
+                        .cornerRadius(12)
+                        .padding(.horizontal)
+                        
+                    Text("💡 Nếu thấy chấm đỏ đè đúng khớp xương là YOLO ngon!")
+                        .font(.system(size: 9))
+                        .foregroundColor(.secondary)
+                        .padding(.horizontal)
+                }
+                .padding(.vertical)
+            }
+            
+            Wham3DView(engine: engine)
+                .frame(height: 300)
+                .cornerRadius(15)
+                .padding()
+
+            // 2. Control Panel: Nơi ma thuật phân tích xảy ra
+            VStack(spacing: 15) {
+                if analyzer.isProcessing {
+                    VStack(alignment: .leading, spacing: 10) {
+                        ProgressView(value: analyzer.progress)
+                            .progressViewStyle(.linear)
+                            .tint(.blue)
+                        
+                        HStack {
+                            // Analyzer giờ sẽ tự báo cáo nó đang làm gì (Load AI, Chạy YOLO, Dọn RAM...)
+                            Text(analyzer.statusMessage.uppercased())
+                            Spacer()
+                            Text("\(Int(analyzer.progress * 100))%")
+                        }
+                        .font(.system(size: 12, design: .monospaced))
+                        .foregroundColor(.blue)
+                    }
+                    .padding()
+                    .background(Color.blue.opacity(0.1))
+                } else {
+                    Button(action: {
+                        Task {
+                            let jsonURL = getURL(for: video.url, ext: "json")
+                            // Bấm nút một phát là nó tự lo từ A-Z
+                            await analyzer.analyze(videoURL: video.url, jsonURL: jsonURL)
+                            loadAndFormatJSON()
+                        }
+                    }) {
+                        HStack {
+                            Image(systemName: "figure.walk.motion")
+                            Text("BẮT ĐẦU PHÂN TÍCH WHAM")
+                                .fontWeight(.bold)
+                        }
+                        .frame(maxWidth: .infinity)
+                        .padding()
+                        .background(video.hasGyro ? Color.blue : Color.gray)
+                        .foregroundColor(.white)
+                        .cornerRadius(12)
+                    }
+                    .disabled(!video.hasGyro)
+                    .padding()
+                }
+                
+                // Hiện thông báo thành công hoặc thất bại sau khi chạy xong
+                if !analyzer.statusMessage.isEmpty && !analyzer.isProcessing {
+                    Text(analyzer.statusMessage)
+                        .font(.caption)
+                        .foregroundColor(analyzer.statusMessage.contains("❌") ? .red : .green)
+                        .padding(.bottom, 10)
+                }
+            }
+            .background(Color.primary.opacity(0.03))
+
+            Divider()
+
+            // 3. Debug Zone: Soi nội tạng JSON
+            ScrollView {
+                VStack(alignment: .leading) {
+                    Text("--- JSON PREVIEW (20 FRAMES ĐẦU) ---")
+                        .font(.system(size: 10, weight: .bold))
+                        .foregroundColor(.secondary)
+                        .padding(.bottom, 5)
+                    
+                    Text(jsonContent)
+                        .font(.system(size: 10, design: .monospaced))
+                        .frame(maxWidth: .infinity, alignment: .leading)
+                }
+                .padding()
+            }
+        }
+        .navigationTitle("Video Analysis")
+        .navigationBarTitleDisplayMode(.inline)
+        .onAppear {
+            loadAndFormatJSON()
+        }
+    }
+
+    private func loadAndFormatJSON() {
+        let jsonURL = getURL(for: video.url, ext: "json")
+
+        Task {
+            do {
+                guard FileManager.default.fileExists(atPath: jsonURL.path) else {
+                    await MainActor.run { self.jsonContent = "Lỗi: Không tìm thấy file JSON." }
+                    return
+                }
+
+                let data = try Data(contentsOf: jsonURL)
+                if let jsonObject = try JSONSerialization.jsonObject(with: data) as? [[String: Any]] {
+                    let count = jsonObject.count
+                    let previewData = Array(jsonObject.prefix(20))
+                    let prettyData = try JSONSerialization.data(withJSONObject: previewData, options: .prettyPrinted)
+                    
+                    if let prettyString = String(data: prettyData, encoding: .utf8) {
+                        await MainActor.run {
+                            self.frameCount = count
+                            self.jsonContent = prettyString
+                        }
+                    }
+                }
+            } catch {
+                await MainActor.run { self.jsonContent = "❌ Lỗi đọc JSON: \(error.localizedDescription)" }
+            }
+        }
+    }
+
+    private func getURL(for url: URL, ext: String) -> URL {
+        let id = url.deletingPathExtension().lastPathComponent
+        return FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0]
+            .appendingPathComponent("\(id).\(ext)")
+    }
+}
+</file>
+
+<file path="WhamApp/WhamApp/VideoLibraryView.swift">
+//
+//  VideoLibraryView.swift
+//  WhamApp
+//
+//  Created by admin on 20/3/26.
+//
+
+import SwiftUI
+import AVFoundation
+
+struct VideoLibraryView: View {
+    @State private var videos: [VideoModel] = []
+    @Environment(\.dismiss) var dismiss
+    
+    var body: some View {
+        NavigationView {
+            List(videos) { video in
+                NavigationLink(destination: VideoDetailView(video: video)) {
+                    HStack {
+                        // Thumbnail (Lấy từ file video thực tế)
+                        VideoThumbnailView(url: video.url)
+                            .frame(width: 80, height: 60)
+                            .cornerRadius(8)
+                        
+                        VStack(alignment: .leading) {
+                            Text(video.url.lastPathComponent)
+                                .font(.system(size: 14, design: .monospaced))
+                                .lineLimit(1)
+                            Text("Gyro: \(video.hasGyro ? "✅ Sẵn sàng" : "❌ Thiếu")")
+                                .font(.caption)
+                                .foregroundColor(video.hasGyro ? .green : .red)
+                        }
+                        
+                        Spacer()
+                        
+                        if video.isAnalyzed {
+                            Image(systemName: "checkmark.seal.fill")
+                                .foregroundColor(.blue)
+                        }
+                    }
+                }
+            }
+            .navigationTitle("Thư viện WHAM")
+            .toolbar {
+                Button("Đóng") { dismiss() }
+            }
+            .onAppear(perform: loadVideos)
+        }
+    }
+    
+    func loadVideos() {
+        let docs = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0]
+        do {
+            // 1. Lấy danh sách file kèm theo thuộc tính ngày tạo
+            let files = try FileManager.default.contentsOfDirectory(at: docs,
+                                                                    includingPropertiesForKeys: [.creationDateKey],
+                                                                    options: .skipsHiddenFiles)
+            
+            // 2. Lọc file mp4 và SẮP XẾP GIẢM DẦN (Mới nhất lên đầu)
+            let sortedVideoURLs = files.filter { $0.pathExtension == "mp4" }
+                .sorted { (url1, url2) -> Bool in
+                    let date1 = (try? url1.resourceValues(forKeys: [.creationDateKey]))?.creationDate ?? Date.distantPast
+                    let date2 = (try? url2.resourceValues(forKeys: [.creationDateKey]))?.creationDate ?? Date.distantPast
+                    return date1 > date2 // Dấu '>' là để thằng mới hơn đứng trước
+                }
+            
+            // 3. Map sang VideoModel của mày
+            self.videos = sortedVideoURLs.map { url in
+                let idString = url.deletingPathExtension().lastPathComponent
+                let jsonURL = docs.appendingPathComponent("\(idString).json")
+                let analyzedURL = docs.appendingPathComponent("\(idString)_out.mp4")
+                
+                return VideoModel(
+                    id: UUID(uuidString: idString) ?? UUID(),
+                    url: url,
+                    hasGyro: FileManager.default.fileExists(atPath: jsonURL.path),
+                    isAnalyzed: FileManager.default.fileExists(atPath: analyzedURL.path)
+                )
+            }
+        } catch {
+            print("❌ Lỗi sắp xếp thư viện: \(error)")
+        }
+    }
+}
+
+// Model cập nhật để check Gyro
+struct VideoModel: Identifiable {
+    let id: UUID
+    let url: URL
+    let hasGyro: Bool
+    let isAnalyzed: Bool
+}
+
+// 1. Cái này để hiện cái hình nhỏ nhỏ trong danh sách
+struct VideoThumbnailView: View {
+    let url: URL
+    @State private var thumbnail: UIImage? = nil
+
+    var body: some View {
+        Group {
+            if let img = thumbnail {
+                Image(uiImage: img)
+                    .resizable()
+                    .aspectRatio(contentMode: .fill)
+            } else {
+                Color.black // Hiện màu đen trong lúc chờ load
+            }
+        }
+        .onAppear {
+            generateThumbnail()
+        }
+    }
+
+    func generateThumbnail() {
+        let asset = AVURLAsset(url: url)
+        let gen = AVAssetImageGenerator(asset: asset)
+        gen.appliesPreferredTrackTransform = true
+        let time = CMTime(seconds: 1, preferredTimescale: 60)
+        
+        gen.generateCGImagesAsynchronously(forTimes: [NSValue(time: time)]) { _, cgImage, _, _, _ in
+            if let cgImage = cgImage {
+                DispatchQueue.main.async {
+                    self.thumbnail = UIImage(cgImage: cgImage)
+                }
+            }
+        }
+    }
+}
+</file>
+
+<file path="WhamApp/WhamApp/Wham3DView.swift">
+//
+//  Wham3DView.swift
+//  WhamApp
+//
+//  Created by admin on 21/3/26.
+//
+
+import SwiftUI
+import SceneKit
+
+struct Wham3DView: View {
+    @ObservedObject var engine: Skeleton3DEngine
+    
+    var body: some View {
+        ZStack {
+            // Đây là cái cửa sổ nhìn vào thế giới 3D
+            SceneView(
+                scene: engine.scene,
+                pointOfView: engine.cameraNode,
+                options: [.allowsCameraControl, .autoenablesDefaultLighting]
+            )
+            .ignoresSafeArea()
+            
+            VStack {
+                Text("WHAM 3D VISUALIZER")
+                    .font(.system(.caption, design: .monospaced))
+                    .padding(8)
+                    .background(.black.opacity(0.7))
+                    .foregroundColor(.green)
+                Spacer()
+            }
+        }
+    }
+}
+</file>
+
+<file path="WhamApp/WhamApp/WhamAnalyzer.swift">
+//
+//  WhamAnalyzer.swift
+//  WhamApp
+//
+
+import Foundation
+import AVFoundation
+import CoreML
+import UIKit
+
+@MainActor
+class WhamAnalyzer: ObservableObject {
+    @Published var progress: Double = 0
+    @Published var isProcessing = false
+    @Published var statusMessage: String = ""
+    @Published var debugImage: UIImage?
+    
+    init() {}
+
+    func analyze(videoURL: URL, jsonURL: URL) async {
+        self.isProcessing = true
+        self.progress = 0
+        self.statusMessage = "Đang chuẩn bị dữ liệu..."
+        
+        do {
+            // Đẩy TOÀN BỘ việc nặng ra Background Thread để chống treo máy
+            try await Task.detached(priority: .userInitiated) {
+                let gyroData = try self.loadGyroData(from: jsonURL)
+                let asset = AVURLAsset(url: videoURL)
+                let reader = try AVAssetReader(asset: asset)
+                let tracks = try await asset.loadTracks(withMediaType: .video)
+                guard let track = tracks.first else { return }
+                let videoSize = try await track.load(.naturalSize)
+
+                let output = AVAssetReaderTrackOutput(track: track, outputSettings: [
+                    kCVPixelBufferPixelFormatTypeKey as String: kCVPixelFormatType_32BGRA
+                ])
+                reader.add(output)
+                reader.startReading()
+                
+                var allFeatures: [MLMultiArray] = []
+                var frameIdx = 0
+
+                await MainActor.run { self.statusMessage = "Đang nạp AI Thị giác..." }
+                var poseDetector: PoseDetector? = PoseDetector()
+                var fastViT: _FastViT? = try _FastViT(configuration: MLModelConfiguration())
+                
+                await MainActor.run { self.statusMessage = "Đang trích xuất (Stage 1/2)..." }
+                
+                // ==========================================
+                // VÒNG LẶP STAGE 1: BỌC AUTORELEASEPOOL CHỐNG RÒ RỈ RAM
+                // ==========================================
+                while reader.status == .reading {
+                    guard let buffer = output.copyNextSampleBuffer() else { break }
+                    
+                    try autoreleasepool {
+                        if let pix = CMSampleBufferGetImageBuffer(buffer) {
+                            if let person = poseDetector?.detect(pixelBuffer: pix).first,
+                               let cropped = self.cropPixelBuffer(pix, to: person.box) {
+                                
+                                let vitInput = _FastViTInput(image_input: cropped)
+                                if let vitOutput = try fastViT?.prediction(input: vitInput) {
+                                    let reshapedFeat = try self.reshapeTo1x1x1024(vitOutput.features_1024)
+                                    allFeatures.append(reshapedFeat)
+                                }
+                            } else {
+                                allFeatures.append(try self.zeros([1, 1, 1024]))
+                            }
+                        }
+                    }
+                    
+                    frameIdx += 1
+                    let currentProgress = (Double(frameIdx) / Double(gyroData.count)) * 0.5
+                    await MainActor.run { self.progress = currentProgress }
+                }
+                
+                // ==========================================
+                // ĐẠI PHÁP "BUỒNG KHÔNG KHÍ" (AIRLOCK)
+                // ==========================================
+                await MainActor.run { self.statusMessage = "Đang dọn dẹp RAM..." }
+                poseDetector = nil
+                fastViT = nil
+                
+                // Ép thời gian chết để iOS dọn RAM thực sự
+                try await Task.sleep(nanoseconds: 3_000_000_000)
+                
+                // ==========================================
+                // VÒNG LẶP STAGE 2: WHAM_INT8_SAFE INFERENCE
+                // ==========================================
+                await MainActor.run { self.statusMessage = "Đang nạp AI WHAM_INT8_SAFE RNN..." }
+                
+                let whamConfig = MLModelConfiguration()
+                whamConfig.computeUnits = .cpuOnly
+
+                // Khai báo biến Optional và nạp Model
+                var whamRNN: WHAM_INT8_SAFE? = nil
+                do {
+                    whamRNN = try await WHAM_INT8_SAFE.load(configuration: whamConfig)
+                    print("🎉 Load model thành công! RAM iPhone 11 vẫn sống!")
+                } catch {
+                    print("❌ Lỗi khởi tạo Model: \(error)")
+                    await MainActor.run { self.statusMessage = "Lỗi nạp Model!" }
+                    return // Phanh gấp
+                }
+
+                // Chốt chặn an toàn: Bóc vỏ Optional để dùng thẳng
+                guard let whamModel = whamRNN else {
+                    print("❌ Lỗi: Model bị nil bất thường.")
+                    return
+                }
+
+                await MainActor.run { self.statusMessage = "Đang nội suy 3D (Stage 2/2)..." }
+                var whamResults: [[String: Any]] = []
+                let totalFrames = allFeatures.count
+                
+                // TỐI ƯU HÓA CỰC ĐỘ: KHAI BÁO CÁC MẢNG HẰNG SỐ Ở NGOÀI VÒNG LẶP
+                // Đừng bao giờ nhét cái này vào trong for-loop, nó sẽ gây tràn RAM!
+                let init_kp = try self.zeros([1, 1, 88])
+                let init_smpl = try self.zeros([1, 1, 24, 6])
+                let mask = try self.ones([1, 81, 17])
+                let init_root = try self.zeros([1, 1, 6])
+                let dummy_x = try self.zeros([1, 81, 37])
+                let dummy_bbox = try self.zeros([1, 81, 3])
+                let cam_angvel = try self.zeros([1, 81, 6])
+                
+                let cam_intrinsics = try self.zeros([1, 1, 3, 3])
+                cam_intrinsics[[0, 0, 0, 0] as [NSNumber]] = 1.0
+                cam_intrinsics[[0, 0, 1, 1] as [NSNumber]] = 1.0
+                cam_intrinsics[[0, 0, 2, 2] as [NSNumber]] = 1.0
+                
+                let res = try self.zeros([1, 2])
+                res[[0, 0] as [NSNumber]] = NSNumber(value: Float(videoSize.width))
+                res[[0, 1] as [NSNumber]] = NSNumber(value: Float(videoSize.height))
+
+                // VÒNG LẶP CHÍNH
+                for i in 0..<totalFrames {
+                    try autoreleasepool {
+                        let win = (i..<i+81).map { min($0, totalFrames - 1) }
+                        
+                        // Chỉ có phần Features là thay đổi, nên mới để trong này
+                        let stackedFeatures = try self.stackArrays(win.map { allFeatures[$0] })
+                        
+                        let input = WHAM_INT8_SAFEInput(
+                            in_0: dummy_x, in_1: init_kp, in_2: init_smpl, in_3: stackedFeatures,
+                            in_4: mask, in_5: init_root, in_6: cam_angvel, in_7: cam_intrinsics,
+                            in_8: dummy_bbox, in_9: res
+                        )
+                        
+                        // Gọi model prediction mà KHÔNG DÙNG DẤU CHẤM HỎI NỮA
+                        let prediction = try whamModel.prediction(input: input)
+                        
+                        // Demo lưu dữ liệu (Ông sẽ parse prediction.pose_6d thực tế ở đây sau)
+                        whamResults.append(["pose_6d": "Success - Got Data!"])
+                    }
+                    
+                    let currentProgress = 0.5 + (Double(i) / Double(totalFrames)) * 0.5
+                    await MainActor.run { self.progress = currentProgress }
+                }
+                
+                let finalData = try JSONSerialization.data(withJSONObject: whamResults)
+                try finalData.write(to: jsonURL)
+                
+                // Giải phóng model sau khi chạy xong
+                whamRNN = nil
+                
+            }.value // Đợi luồng Background chạy xong
+            
+            self.statusMessage = "✅ PHÂN TÍCH THÀNH CÔNG!"
+            self.isProcessing = false
+            
+        } catch {
+            print("❌ Analysis Failed: \(error)")
+            self.statusMessage = "❌ Lỗi: \(error.localizedDescription)"
+            self.isProcessing = false
+        }
+    }
+
+    // --- HELPER FUNCTIONS ---
+    
+    nonisolated private func stackArrays(_ arrays: [MLMultiArray]) throws -> MLMultiArray {
+        return try MLMultiArray(concatenating: arrays, axis: 1, dataType: .float32)
+    }
+    
+    nonisolated private func reshapeTo1x1x1024(_ arr: MLMultiArray) throws -> MLMultiArray {
+        let newArr = try MLMultiArray(shape: [1, 1, 1024], dataType: .float32)
+        for i in 0..<1024 { newArr[[0, 0, i] as [NSNumber]] = arr[[0, i] as [NSNumber]] }
+        return newArr
+    }
+
+    nonisolated private func zeros(_ shape: [NSNumber]) throws -> MLMultiArray {
+        return try MLMultiArray(shape: shape, dataType: .float32)
+    }
+
+    nonisolated private func ones(_ shape: [NSNumber]) throws -> MLMultiArray {
+        let arr = try MLMultiArray(shape: shape, dataType: .float32)
+        for i in 0..<arr.count { arr[i] = 1.0 }
+        return arr
+    }
+
+    nonisolated private func cropPixelBuffer(_ buffer: CVPixelBuffer, to rect: CGRect) -> CVPixelBuffer? {
+        let ciImage = CIImage(cvPixelBuffer: buffer).cropped(to: rect)
+        let moveOrigin = CGAffineTransform(translationX: -rect.origin.x, y: -rect.origin.y)
+        let scaleX = 256.0 / rect.width
+        let scaleY = 256.0 / rect.height
+        let scale = CGAffineTransform(scaleX: scaleX, y: scaleY)
+        let finalTransform = moveOrigin.concatenating(scale)
+        let resized = ciImage.transformed(by: finalTransform)
+        
+        var newBuffer: CVPixelBuffer?
+        CVPixelBufferCreate(nil, 256, 256, kCVPixelFormatType_32BGRA, nil, &newBuffer)
+        if let nb = newBuffer { CIContext().render(resized, to: nb) }
+        return newBuffer
+    }
+    
+    nonisolated private func loadGyroData(from url: URL) throws -> [[String: Any]] {
+        let data = try Data(contentsOf: url)
+        return try JSONSerialization.jsonObject(with: data) as? [[String: Any]] ?? []
+    }
+}
+</file>
+
+<file path="WhamApp/WhamApp/WhamApp.swift">
+//
+//  WhamApp.swift
+//  WhamApp
+//
+//  Created by admin on 20/3/26.
+//
+
+import SwiftUI
+
+@main
+struct WhamApp: App {
+    var body: some Scene {
+        WindowGroup {
+            MainCameraView()
+        }
+    }
+}
+</file>
+
+<file path="WhamApp/WhamApp/WhamCaptureManager.swift">
+//
+//  WhamCaptureManager.swift
+//  WhamApp
+//
+//  Created by admin on 20/3/26.
+//
+
+import AVFoundation
+import CoreMotion
+import UIKit
+
+class WhamCaptureManager: NSObject, ObservableObject, AVCaptureFileOutputRecordingDelegate {
+    // --- Các thành phần hệ thống ---
+    let session = AVCaptureSession()
+    private let movieOutput = AVCaptureMovieFileOutput()
+    private let motionManager = CMMotionManager()
+    
+    // --- Các biến trạng thái để UI quan sát ---
+    @Published var isRecording = false
+    @Published var lastThumbnail: UIImage?
+    @Published var recordedSeconds: Int = 0
+    
+    private var timer: Timer?
+    private var currentID: UUID?
+    private var gyroData: [[String: Any]] = []
+
+    override init() {
+        super.init()
+        setupSession() // Hàm này đây chứ đâu!
+        loadLatestThumbnail() // Lục lại quá khứ
+    }
+
+    // 1. THIẾT LẬP CAMERA (Hàm mày bị thiếu đây)
+    private func setupSession() {
+        guard let device = AVCaptureDevice.default(.builtInWideAngleCamera, for: .video, position: .back),
+              let input = try? AVCaptureDeviceInput(device: device) else {
+            print("❌ Không tìm thấy camera")
+            return
+        }
+        
+        session.beginConfiguration()
+        if session.canAddInput(input) { session.addInput(input) }
+        if session.canAddOutput(movieOutput) { session.addOutput(movieOutput) }
+        session.commitConfiguration()
+        
+        // Chạy session ở thread ngầm cho đỡ lag UI
+        DispatchQueue.global(qos: .userInitiated).async {
+            self.session.startRunning()
+        }
+    }
+
+    // 2. LỤC LẠI VIDEO CŨ ĐỂ HIỆN NÚT LIB
+    private func loadLatestThumbnail() {
+        let docs = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0]
+        do {
+            let files = try FileManager.default.contentsOfDirectory(at: docs, includingPropertiesForKeys: [.creationDateKey])
+            let sortedVideos = files.filter { $0.pathExtension == "mp4" }
+                .sorted { (url1, url2) -> Bool in
+                    let date1 = (try? url1.resourceValues(forKeys: [.creationDateKey]))?.creationDate ?? Date.distantPast
+                    let date2 = (try? url2.resourceValues(forKeys: [.creationDateKey]))?.creationDate ?? Date.distantPast
+                    return date1 > date2
+                }
+            
+            if let latestVideo = sortedVideos.first {
+                generateThumbnail(for: latestVideo)
+            }
+        } catch {
+            print("⚠️ Lỗi load video cũ: \(error)")
+        }
+    }
+
+    // 3. ĐIỀU KHIỂN QUAY
+    func toggleRecording() {
+        if isRecording { stop() } else { start() }
+    }
+
+    private func start() {
+        let id = UUID()
+        currentID = id
+        gyroData.removeAll()
+        recordedSeconds = 0
+        isRecording = true
+        
+        // Bật đồng hồ đếm giây
+        timer = Timer.scheduledTimer(withTimeInterval: 1.0, repeats: true) { _ in
+            self.recordedSeconds += 1
+        }
+        
+        // Bật cảm biến Gyro (Vận tốc góc phục vụ WHAM)
+        if motionManager.isGyroAvailable {
+            motionManager.gyroUpdateInterval = 1.0 / 60.0
+            motionManager.startGyroUpdates(to: .main) { data, _ in
+                guard let data = data else { return }
+                let frame: [String: Any] = [
+                    "t": data.timestamp,
+                    "x": data.rotationRate.x,
+                    "y": data.rotationRate.y,
+                    "z": data.rotationRate.z
+                ]
+                self.gyroData.append(frame)
+            }
+        }
+        
+        let url = getURL(id: id, ext: "mp4")
+        movieOutput.startRecording(to: url, recordingDelegate: self)
+    }
+
+    private func stop() {
+        movieOutput.stopRecording()
+        motionManager.stopGyroUpdates()
+        timer?.invalidate()
+        timer = nil
+        if let id = currentID { saveJSON(id: id) }
+        isRecording = false
+    }
+
+    // 4. TIỆN ÍCH DỮ LIỆU
+    func formattedTime() -> String {
+        let minutes = recordedSeconds / 60
+        let seconds = recordedSeconds % 60
+        return String(format: "%02d:%02d", minutes, seconds)
+    }
+
+    private func saveJSON(id: UUID) {
+        let url = getURL(id: id, ext: "json")
+        if let data = try? JSONSerialization.data(withJSONObject: gyroData, options: .prettyPrinted) {
+            try? data.write(to: url)
+            print("✅ Đã lưu \(gyroData.count) frames Gyro cho \(id.uuidString)")
+        }
+    }
+
+    func getURL(id: UUID, ext: String) -> URL {
+        FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0]
+            .appendingPathComponent("\(id.uuidString).\(ext)")
+    }
+
+    // 5. DELEGATE KHI QUAY XONG
+    func fileOutput(_ output: AVCaptureFileOutput, didFinishRecordingTo url: URL, from connections: [AVCaptureConnection], error: Error?) {
+        generateThumbnail(for: url)
+    }
+    
+    private func generateThumbnail(for url: URL) {
+        let asset = AVURLAsset(url: url)
+        let gen = AVAssetImageGenerator(asset: asset)
+        gen.appliesPreferredTrackTransform = true
+        let time = CMTime(seconds: 0, preferredTimescale: 600)
+        
+        gen.generateCGImagesAsynchronously(forTimes: [NSValue(time: time)]) { _, cgImage, _, _, _ in
+            if let cgImage = cgImage {
+                DispatchQueue.main.async {
+                    self.lastThumbnail = UIImage(cgImage: cgImage)
+                }
+            }
+        }
+    }
+}
+</file>
+
+<file path="WhamApp/WhamApp.xcodeproj/project.xcworkspace/xcshareddata/WorkspaceSettings.xcsettings">
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict/>
+</plist>
+</file>
+
+<file path="WhamApp/WhamApp.xcodeproj/project.xcworkspace/xcuserdata/admin.xcuserdatad/WorkspaceSettings.xcsettings">
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>BuildLocationStyle</key>
+	<string>UseAppPreferences</string>
+	<key>CustomBuildLocationType</key>
+	<string>RelativeToDerivedData</string>
+	<key>DerivedDataLocationStyle</key>
+	<string>Default</string>
+	<key>ShowSharedSchemesAutomaticallyEnabled</key>
+	<true/>
+</dict>
+</plist>
+</file>
+
+<file path="WhamApp/WhamApp.xcodeproj/project.xcworkspace/contents.xcworkspacedata">
+<?xml version="1.0" encoding="UTF-8"?>
+<Workspace
+   version = "1.0">
+   <FileRef
+      location = "self:">
+   </FileRef>
+</Workspace>
+</file>
+
+<file path="WhamApp/WhamApp.xcodeproj/xcshareddata/xcschemes/WhamApp.xcscheme">
+<?xml version="1.0" encoding="UTF-8"?>
+<Scheme
+   LastUpgradeVersion = "1640"
+   version = "1.7">
+   <BuildAction
+      parallelizeBuildables = "YES"
+      buildImplicitDependencies = "YES"
+      buildArchitectures = "Automatic">
+      <BuildActionEntries>
+         <BuildActionEntry
+            buildForTesting = "YES"
+            buildForRunning = "YES"
+            buildForProfiling = "YES"
+            buildForArchiving = "YES"
+            buildForAnalyzing = "YES">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "849F83A22F6D2D2F00682F8D"
+               BuildableName = "WhamApp.app"
+               BlueprintName = "WhamApp"
+               ReferencedContainer = "container:WhamApp.xcodeproj">
+            </BuildableReference>
+         </BuildActionEntry>
+      </BuildActionEntries>
+   </BuildAction>
+   <TestAction
+      buildConfiguration = "Debug"
+      selectedDebuggerIdentifier = "Xcode.DebuggerFoundation.Debugger.LLDB"
+      selectedLauncherIdentifier = "Xcode.DebuggerFoundation.Launcher.LLDB"
+      shouldUseLaunchSchemeArgsEnv = "YES"
+      shouldAutocreateTestPlan = "YES">
+      <Testables>
+         <TestableReference
+            skipped = "NO"
+            parallelizable = "YES">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "849F83AF2F6D2D3500682F8D"
+               BuildableName = "WhamAppTests.xctest"
+               BlueprintName = "WhamAppTests"
+               ReferencedContainer = "container:WhamApp.xcodeproj">
+            </BuildableReference>
+         </TestableReference>
+         <TestableReference
+            skipped = "NO"
+            parallelizable = "YES">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "849F83B92F6D2D3500682F8D"
+               BuildableName = "WhamAppUITests.xctest"
+               BlueprintName = "WhamAppUITests"
+               ReferencedContainer = "container:WhamApp.xcodeproj">
+            </BuildableReference>
+         </TestableReference>
+      </Testables>
+   </TestAction>
+   <LaunchAction
+      buildConfiguration = "Debug"
+      selectedDebuggerIdentifier = "Xcode.DebuggerFoundation.Debugger.LLDB"
+      selectedLauncherIdentifier = "Xcode.DebuggerFoundation.Launcher.LLDB"
+      launchStyle = "0"
+      useCustomWorkingDirectory = "NO"
+      ignoresPersistentStateOnLaunch = "NO"
+      debugDocumentVersioning = "YES"
+      debugServiceExtension = "internal"
+      allowLocationSimulation = "YES">
+      <BuildableProductRunnable
+         runnableDebuggingMode = "0">
+         <BuildableReference
+            BuildableIdentifier = "primary"
+            BlueprintIdentifier = "849F83A22F6D2D2F00682F8D"
+            BuildableName = "WhamApp.app"
+            BlueprintName = "WhamApp"
+            ReferencedContainer = "container:WhamApp.xcodeproj">
+         </BuildableReference>
+      </BuildableProductRunnable>
+   </LaunchAction>
+   <ProfileAction
+      buildConfiguration = "Release"
+      shouldUseLaunchSchemeArgsEnv = "YES"
+      savedToolIdentifier = ""
+      useCustomWorkingDirectory = "NO"
+      debugDocumentVersioning = "YES">
+      <BuildableProductRunnable
+         runnableDebuggingMode = "0">
+         <BuildableReference
+            BuildableIdentifier = "primary"
+            BlueprintIdentifier = "849F83A22F6D2D2F00682F8D"
+            BuildableName = "WhamApp.app"
+            BlueprintName = "WhamApp"
+            ReferencedContainer = "container:WhamApp.xcodeproj">
+         </BuildableReference>
+      </BuildableProductRunnable>
+   </ProfileAction>
+   <AnalyzeAction
+      buildConfiguration = "Debug">
+   </AnalyzeAction>
+   <ArchiveAction
+      buildConfiguration = "Release"
+      revealArchiveInOrganizer = "YES">
+   </ArchiveAction>
+</Scheme>
+</file>
+
+<file path="WhamApp/WhamApp.xcodeproj/xcuserdata/admin.xcuserdatad/xcschemes/xcschememanagement.plist">
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>SchemeUserState</key>
+	<dict>
+		<key>WhamApp.xcscheme_^#shared#^_</key>
+		<dict>
+			<key>orderHint</key>
+			<integer>0</integer>
+		</dict>
+	</dict>
+	<key>SuppressBuildableAutocreation</key>
+	<dict>
+		<key>849F83A22F6D2D2F00682F8D</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>849F83AF2F6D2D3500682F8D</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>849F83B92F6D2D3500682F8D</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+	</dict>
+</dict>
+</plist>
+</file>
+
+<file path="WhamApp/WhamApp.xcodeproj/project.pbxproj">
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 77;
+	objects = {
+
+/* Begin PBXContainerItemProxy section */
+		849F83B12F6D2D3500682F8D /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 849F839B2F6D2D2F00682F8D /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 849F83A22F6D2D2F00682F8D;
+			remoteInfo = WhamApp;
+		};
+		849F83BB2F6D2D3500682F8D /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 849F839B2F6D2D2F00682F8D /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 849F83A22F6D2D2F00682F8D;
+			remoteInfo = WhamApp;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		849F83A32F6D2D2F00682F8D /* WhamApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = WhamApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		849F83B02F6D2D3500682F8D /* WhamAppTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = WhamAppTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		849F83BA2F6D2D3500682F8D /* WhamAppUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = WhamAppUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+/* End PBXFileReference section */
+
+/* Begin PBXFileSystemSynchronizedRootGroup section */
+		849F83A52F6D2D2F00682F8D /* WhamApp */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = WhamApp;
+			sourceTree = "<group>";
+		};
+		849F83B32F6D2D3500682F8D /* WhamAppTests */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = WhamAppTests;
+			sourceTree = "<group>";
+		};
+		849F83BD2F6D2D3500682F8D /* WhamAppUITests */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = WhamAppUITests;
+			sourceTree = "<group>";
+		};
+/* End PBXFileSystemSynchronizedRootGroup section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		849F83A02F6D2D2F00682F8D /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		849F83AD2F6D2D3500682F8D /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		849F83B72F6D2D3500682F8D /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		849F839A2F6D2D2F00682F8D = {
+			isa = PBXGroup;
+			children = (
+				849F83A52F6D2D2F00682F8D /* WhamApp */,
+				849F83B32F6D2D3500682F8D /* WhamAppTests */,
+				849F83BD2F6D2D3500682F8D /* WhamAppUITests */,
+				849F83A42F6D2D2F00682F8D /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		849F83A42F6D2D2F00682F8D /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				849F83A32F6D2D2F00682F8D /* WhamApp.app */,
+				849F83B02F6D2D3500682F8D /* WhamAppTests.xctest */,
+				849F83BA2F6D2D3500682F8D /* WhamAppUITests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		849F83A22F6D2D2F00682F8D /* WhamApp */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 849F83C42F6D2D3500682F8D /* Build configuration list for PBXNativeTarget "WhamApp" */;
+			buildPhases = (
+				849F839F2F6D2D2F00682F8D /* Sources */,
+				849F83A02F6D2D2F00682F8D /* Frameworks */,
+				849F83A12F6D2D2F00682F8D /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			fileSystemSynchronizedGroups = (
+				849F83A52F6D2D2F00682F8D /* WhamApp */,
+			);
+			name = WhamApp;
+			packageProductDependencies = (
+			);
+			productName = WhamApp;
+			productReference = 849F83A32F6D2D2F00682F8D /* WhamApp.app */;
+			productType = "com.apple.product-type.application";
+		};
+		849F83AF2F6D2D3500682F8D /* WhamAppTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 849F83C72F6D2D3500682F8D /* Build configuration list for PBXNativeTarget "WhamAppTests" */;
+			buildPhases = (
+				849F83AC2F6D2D3500682F8D /* Sources */,
+				849F83AD2F6D2D3500682F8D /* Frameworks */,
+				849F83AE2F6D2D3500682F8D /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				849F83B22F6D2D3500682F8D /* PBXTargetDependency */,
+			);
+			fileSystemSynchronizedGroups = (
+				849F83B32F6D2D3500682F8D /* WhamAppTests */,
+			);
+			name = WhamAppTests;
+			packageProductDependencies = (
+			);
+			productName = WhamAppTests;
+			productReference = 849F83B02F6D2D3500682F8D /* WhamAppTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+		849F83B92F6D2D3500682F8D /* WhamAppUITests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 849F83CA2F6D2D3500682F8D /* Build configuration list for PBXNativeTarget "WhamAppUITests" */;
+			buildPhases = (
+				849F83B62F6D2D3500682F8D /* Sources */,
+				849F83B72F6D2D3500682F8D /* Frameworks */,
+				849F83B82F6D2D3500682F8D /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				849F83BC2F6D2D3500682F8D /* PBXTargetDependency */,
+			);
+			fileSystemSynchronizedGroups = (
+				849F83BD2F6D2D3500682F8D /* WhamAppUITests */,
+			);
+			name = WhamAppUITests;
+			packageProductDependencies = (
+			);
+			productName = WhamAppUITests;
+			productReference = 849F83BA2F6D2D3500682F8D /* WhamAppUITests.xctest */;
+			productType = "com.apple.product-type.bundle.ui-testing";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		849F839B2F6D2D2F00682F8D /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = 1;
+				LastSwiftUpdateCheck = 1640;
+				LastUpgradeCheck = 1640;
+				TargetAttributes = {
+					849F83A22F6D2D2F00682F8D = {
+						CreatedOnToolsVersion = 16.4;
+					};
+					849F83AF2F6D2D3500682F8D = {
+						CreatedOnToolsVersion = 16.4;
+						TestTargetID = 849F83A22F6D2D2F00682F8D;
+					};
+					849F83B92F6D2D3500682F8D = {
+						CreatedOnToolsVersion = 16.4;
+						TestTargetID = 849F83A22F6D2D2F00682F8D;
+					};
+				};
+			};
+			buildConfigurationList = 849F839E2F6D2D2F00682F8D /* Build configuration list for PBXProject "WhamApp" */;
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = 849F839A2F6D2D2F00682F8D;
+			minimizedProjectReferenceProxies = 1;
+			preferredProjectObjectVersion = 77;
+			productRefGroup = 849F83A42F6D2D2F00682F8D /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				849F83A22F6D2D2F00682F8D /* WhamApp */,
+				849F83AF2F6D2D3500682F8D /* WhamAppTests */,
+				849F83B92F6D2D3500682F8D /* WhamAppUITests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		849F83A12F6D2D2F00682F8D /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		849F83AE2F6D2D3500682F8D /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		849F83B82F6D2D3500682F8D /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		849F839F2F6D2D2F00682F8D /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		849F83AC2F6D2D3500682F8D /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		849F83B62F6D2D3500682F8D /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		849F83B22F6D2D3500682F8D /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 849F83A22F6D2D2F00682F8D /* WhamApp */;
+			targetProxy = 849F83B12F6D2D3500682F8D /* PBXContainerItemProxy */;
+		};
+		849F83BC2F6D2D3500682F8D /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 849F83A22F6D2D2F00682F8D /* WhamApp */;
+			targetProxy = 849F83BB2F6D2D3500682F8D /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin XCBuildConfiguration section */
+		849F83C22F6D2D3500682F8D /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 18.5;
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG $(inherited)";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		849F83C32F6D2D3500682F8D /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 18.5;
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		849F83C52F6D2D3500682F8D /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = DBHQ82T8TS;
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_NSCameraUsageDescription = "Tất nhiên rồi?";
+				INFOPLIST_KEY_NSMotionUsageDescription = "Thế nó mới đẳng cấp";
+				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.longnt.WhamApp;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		849F83C62F6D2D3500682F8D /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = DBHQ82T8TS;
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_NSCameraUsageDescription = "Tất nhiên rồi?";
+				INFOPLIST_KEY_NSMotionUsageDescription = "Thế nó mới đẳng cấp";
+				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.longnt.WhamApp;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+		849F83C82F6D2D3500682F8D /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 18.5;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.longnt.WhamAppTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/WhamApp.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/WhamApp";
+			};
+			name = Debug;
+		};
+		849F83C92F6D2D3500682F8D /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 18.5;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.longnt.WhamAppTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/WhamApp.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/WhamApp";
+			};
+			name = Release;
+		};
+		849F83CB2F6D2D3500682F8D /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				GENERATE_INFOPLIST_FILE = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.longnt.WhamAppUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = WhamApp;
+			};
+			name = Debug;
+		};
+		849F83CC2F6D2D3500682F8D /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				GENERATE_INFOPLIST_FILE = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.longnt.WhamAppUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = WhamApp;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		849F839E2F6D2D2F00682F8D /* Build configuration list for PBXProject "WhamApp" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				849F83C22F6D2D3500682F8D /* Debug */,
+				849F83C32F6D2D3500682F8D /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		849F83C42F6D2D3500682F8D /* Build configuration list for PBXNativeTarget "WhamApp" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				849F83C52F6D2D3500682F8D /* Debug */,
+				849F83C62F6D2D3500682F8D /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		849F83C72F6D2D3500682F8D /* Build configuration list for PBXNativeTarget "WhamAppTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				849F83C82F6D2D3500682F8D /* Debug */,
+				849F83C92F6D2D3500682F8D /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		849F83CA2F6D2D3500682F8D /* Build configuration list for PBXNativeTarget "WhamAppUITests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				849F83CB2F6D2D3500682F8D /* Debug */,
+				849F83CC2F6D2D3500682F8D /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 849F839B2F6D2D2F00682F8D /* Project object */;
+}
+</file>
+
+<file path="WhamApp/WhamAppTests/WhamAppTests.swift">
+//
+//  WhamAppTests.swift
+//  WhamAppTests
+//
+//  Created by admin on 20/3/26.
+//
+
+import Testing
+@testable import WhamApp
+
+struct WhamAppTests {
+
+    @Test func example() async throws {
+        // Write your test here and use APIs like `#expect(...)` to check expected conditions.
+    }
+
+}
+</file>
+
+<file path="WhamApp/WhamAppUITests/WHAM_FINAL_FIXED.mlpackage/Manifest.json">
+{
+    "fileFormatVersion": "1.0.0",
+    "itemInfoEntries": {
+        "514759fb-6c19-411d-8cb2-3c5c95ca0311": {
+            "author": "com.apple.CoreML",
+            "description": "CoreML Model Specification",
+            "name": "model.mlmodel",
+            "path": "com.apple.CoreML/model.mlmodel"
+        },
+        "5a71a039-732c-4ded-aea4-833768f06aad": {
+            "author": "com.apple.CoreML",
+            "description": "CoreML Model Weights",
+            "name": "weights",
+            "path": "com.apple.CoreML/weights"
+        }
+    },
+    "rootModelIdentifier": "514759fb-6c19-411d-8cb2-3c5c95ca0311"
+}
+</file>
+
+<file path="WhamApp/WhamAppUITests/WhamAppUITests.swift">
+//
+//  WhamAppUITests.swift
+//  WhamAppUITests
+//
+//  Created by admin on 20/3/26.
+//
+
+import XCTest
+
+final class WhamAppUITests: XCTestCase {
+
+    override func setUpWithError() throws {
+        // Put setup code here. This method is called before the invocation of each test method in the class.
+
+        // In UI tests it is usually best to stop immediately when a failure occurs.
+        continueAfterFailure = false
+
+        // In UI tests it’s important to set the initial state - such as interface orientation - required for your tests before they run. The setUp method is a good place to do this.
+    }
+
+    override func tearDownWithError() throws {
+        // Put teardown code here. This method is called after the invocation of each test method in the class.
+    }
+
+    @MainActor
+    func testExample() throws {
+        // UI tests must launch the application that they test.
+        let app = XCUIApplication()
+        app.launch()
+
+        // Use XCTAssert and related functions to verify your tests produce the correct results.
+    }
+
+    @MainActor
+    func testLaunchPerformance() throws {
+        // This measures how long it takes to launch your application.
+        measure(metrics: [XCTApplicationLaunchMetric()]) {
+            XCUIApplication().launch()
+        }
+    }
+}
+</file>
+
+<file path="WhamApp/WhamAppUITests/WhamAppUITestsLaunchTests.swift">
+//
+//  WhamAppUITestsLaunchTests.swift
+//  WhamAppUITests
+//
+//  Created by admin on 20/3/26.
+//
+
+import XCTest
+
+final class WhamAppUITestsLaunchTests: XCTestCase {
+
+    override class var runsForEachTargetApplicationUIConfiguration: Bool {
+        true
+    }
+
+    override func setUpWithError() throws {
+        continueAfterFailure = false
+    }
+
+    @MainActor
+    func testLaunch() throws {
+        let app = XCUIApplication()
+        app.launch()
+
+        // Insert steps here to perform after app launch but before taking a screenshot,
+        // such as logging into a test account or navigating somewhere in the app
+
+        let attachment = XCTAttachment(screenshot: app.screenshot())
+        attachment.name = "Launch Screen"
+        attachment.lifetime = .keepAlways
+        add(attachment)
+    }
+}
+</file>
+
+</files>
