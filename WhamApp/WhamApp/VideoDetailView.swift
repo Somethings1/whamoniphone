@@ -10,29 +10,24 @@ import SceneKit
 struct VideoDetailView: View {
     let video: VideoModel
     @StateObject private var analyzer = WhamAnalyzer()
-    
-    // Local state to force a UI refresh the moment analysis finishes
+
     @State private var isAnalyzedLocal: Bool
-    
+
     init(video: VideoModel) {
         self.video = video
         _isAnalyzedLocal = State(initialValue: video.isAnalyzed)
     }
-    
+
     var body: some View {
         VStack {
             if analyzer.isProcessing {
-                // STATE 1: Crunching Numbers
                 ProcessingView(analyzer: analyzer)
-                
+
             } else if isAnalyzedLocal {
-                // STATE 2: Finished! Show the 3D Tabs
                 AnalyzedTabView(video: video)
-                
+
             } else {
-                // STATE 3: Ready to Analyze
                 NotAnalyzedView(video: video, analyzer: analyzer) {
-                    // This closure triggers when analysis is successful
                     self.isAnalyzedLocal = true
                 }
             }
@@ -46,35 +41,34 @@ struct VideoDetailView: View {
 
 struct ProcessingView: View {
     @ObservedObject var analyzer: WhamAnalyzer
-    
+
     var body: some View {
         VStack(spacing: 20) {
             ProgressView(value: analyzer.progress, total: 1.0)
                 .progressViewStyle(.linear)
                 .tint(.blue)
                 .padding(.horizontal, 40)
-            
+
             Text(analyzer.statusMessage)
                 .font(.system(size: 14, weight: .bold, design: .monospaced))
                 .foregroundColor(.blue)
-            
+
             Text("\(Int(analyzer.progress * 100))%")
                 .font(.headline)
-            
-            // THE FIX: We actually render the debug image while it's processing
+
             if let debugImg = analyzer.debugImage {
                 VStack(spacing: 8) {
                     Text("YOLO 2D DEBUGGER (Frame 15):")
                         .font(.system(size: 12, weight: .bold, design: .monospaced))
                         .foregroundColor(.red)
-                    
+
                     Image(uiImage: debugImg)
                         .resizable()
                         .aspectRatio(contentMode: .fit)
                         .background(Color.black)
                         .cornerRadius(12)
                         .padding(.horizontal, 20)
-                        
+
                     Text("If the box/dots don't align perfectly with the human, YOLO is broken.")
                         .font(.caption2)
                         .foregroundColor(.gray)
@@ -91,7 +85,7 @@ struct NotAnalyzedView: View {
     var video: VideoModel
     @ObservedObject var analyzer: WhamAnalyzer
     var onComplete: () -> Void
-    
+
     var body: some View {
         VStack {
             // Media Playback
@@ -99,9 +93,9 @@ struct NotAnalyzedView: View {
                 .frame(maxHeight: 400)
                 .cornerRadius(12)
                 .padding()
-            
+
             Spacer()
-            
+
             // The Trigger
             Button(action: {
                 Task {
@@ -110,7 +104,7 @@ struct NotAnalyzedView: View {
                         gyroJsonURL: video.gyroJsonURL,
                         outputURL: video.whamOutputURL
                     )
-                    
+
                     if !analyzer.statusMessage.contains("Lỗi") && !analyzer.statusMessage.contains("Failed") {
                         onComplete()
                     }
@@ -129,13 +123,13 @@ struct NotAnalyzedView: View {
                 .padding()
             }
             .disabled(!video.hasGyro)
-            
+
             if !video.hasGyro {
                 Text("⚠️ Cần dữ liệu AR (Gyro) để phân tích.")
                     .font(.caption)
                     .foregroundColor(.red)
             }
-            
+
             if analyzer.statusMessage.contains("Lỗi") {
                 Text(analyzer.statusMessage)
                     .font(.caption)
@@ -151,7 +145,7 @@ struct NotAnalyzedView: View {
 struct AnalyzedTabView: View {
     let video: VideoModel
     @State private var whamData: [[String: Any]] = []
-    
+
     var body: some View {
         TabView {
             // TAB 1: Video with AR overlay
@@ -160,7 +154,7 @@ struct AnalyzedTabView: View {
                     Image(systemName: "play.tv.fill")
                     Text("Video Overlay")
                 }
-            
+
             // TAB 2: Pure 3D space
             Wham3DView(whamData: whamData)
                 .tabItem {
@@ -172,7 +166,7 @@ struct AnalyzedTabView: View {
             loadJSONData()
         }
     }
-    
+
     private func loadJSONData() {
         if let data = try? Data(contentsOf: video.whamOutputURL),
            let json = try? JSONSerialization.jsonObject(with: data) as? [[String: Any]] {
@@ -185,25 +179,23 @@ struct AnalyzedTabView: View {
 struct VideoOverlayView: View {
     let videoURL: URL
     let whamData: [[String: Any]]
-    
-    // THE FIX: Independent Engine so it doesn't fight Tab 2
+
     @StateObject private var engine = Skeleton3DEngine()
     @State private var player: AVPlayer
-    
+
     let timer = Timer.publish(every: 1.0 / 30.0, on: .main, in: .common).autoconnect()
-    
+
     init(videoURL: URL, whamData: [[String: Any]]) {
         self.videoURL = videoURL
         self.whamData = whamData
         _player = State(initialValue: AVPlayer(url: videoURL))
     }
-    
+
     var body: some View {
         ZStack {
             VideoPlayer(player: player)
                 .ignoresSafeArea()
-            
-            // THE FIX: Explicitly forcing a clear background
+
             SceneView(
                 scene: engine.scene,
                 pointOfView: engine.cameraNode,
@@ -215,12 +207,12 @@ struct VideoOverlayView: View {
         }
         .onReceive(timer) { _ in
             guard whamData.count > 0 else { return }
-            
+
             let currentTime = player.currentTime().seconds
             let fps: Double = 30.0
             let frameIndex = Int(currentTime * fps)
             let safeIndex = max(0, min(frameIndex, whamData.count - 1))
-            
+
             if let kp3d = whamData[safeIndex]["keypoints_3d"] as? [Float] {
                 engine.applyFrameData(keypoints3D: kp3d)
             }
@@ -234,11 +226,10 @@ struct VideoOverlayView: View {
 // MARK: - TAB 2: The Pure 3D World
 struct Wham3DView: View {
     let whamData: [[String: Any]]
-    
-    // THE FIX: Independent Engine
+
     @StateObject private var engine = Skeleton3DEngine()
     @State private var frameIndex = 0
-    
+
     var body: some View {
         ZStack {
             SceneView(
@@ -248,7 +239,7 @@ struct Wham3DView: View {
             )
             .background(Color.black)
             .ignoresSafeArea()
-            
+
             VStack {
                 Text("WHAM 3D SKELETON")
                     .font(.system(.caption, design: .monospaced))
@@ -257,14 +248,14 @@ struct Wham3DView: View {
                     .foregroundColor(.green)
                     .cornerRadius(8)
                     .padding(.top)
-                
+
                 Spacer()
-                
+
                 VStack {
                     Text("Frame: \(frameIndex)")
                         .font(.caption)
                         .foregroundColor(.white)
-                    
+
                     Slider(value: Binding(
                         get: { Double(frameIndex) },
                         set: { newVal in
@@ -281,7 +272,7 @@ struct Wham3DView: View {
             updateSkeleton()
         }
     }
-    
+
     private func updateSkeleton() {
         guard frameIndex < whamData.count else { return }
         if let kp3d = whamData[frameIndex]["keypoints_3d"] as? [Float] {

@@ -13,19 +13,19 @@ class ARWhamManager: NSObject, ARSessionDelegate, ObservableObject {
     @Published var isRecording = false
     @Published var recordedSeconds: Int = 0
     @Published var lastThumbnail: UIImage?
-    
+
     let session = ARSession()
     private let dataQueue = DispatchQueue(label: "com.wham.record", qos: .userInitiated)
     private var slmData: [[String: Any]] = []
     private var currentID: UUID?
     private var timer: Timer?
-    
+
     // --- AVFoundation Core ---
     private var assetWriter: AVAssetWriter?
     private var assetWriterInput: AVAssetWriterInput?
     private var pixelBufferAdaptor: AVAssetWriterInputPixelBufferAdaptor?
-    private var isReadyToRecord = false // Cờ hiệu quan trọng nhất
-    
+    private var isReadyToRecord = false
+
     var formattedTime: String {
         let m = recordedSeconds / 60, s = recordedSeconds % 60
         return String(format: "%02d:%02d", m, s)
@@ -53,13 +53,12 @@ class ARWhamManager: NSObject, ARSessionDelegate, ObservableObject {
         currentID = id
         slmData.removeAll()
         recordedSeconds = 0
-        isReadyToRecord = false // Reset cờ hiệu
-        
+        isReadyToRecord = false
+
         setupWriter(id: id)
-        
-        // Chỉ bật ghi âm sau khi setupWriter đã gọi startWriting()
+
         isRecording = true
-        
+
         timer = Timer.scheduledTimer(withTimeInterval: 1.0, repeats: true) { _ in
             self.recordedSeconds += 1
         }
@@ -68,8 +67,7 @@ class ARWhamManager: NSObject, ARSessionDelegate, ObservableObject {
     private func stop() {
         isRecording = false
         timer?.invalidate()
-        
-        // Dọn dẹp AssetWriter
+
         assetWriterInput?.markAsFinished()
         assetWriter?.finishWriting { [weak self] in
             guard let self = self, let id = self.currentID else { return }
@@ -78,17 +76,15 @@ class ARWhamManager: NSObject, ARSessionDelegate, ObservableObject {
         }
     }
 
-    // --- HÀM XỬ LÝ FRAME (ĐÃ FIX CRASH) ---
     func session(_ session: ARSession, didUpdate frame: ARFrame) {
         autoreleasepool {
             guard isRecording else { return }
-            
+
             let ts = frame.timestamp
             let mat = frame.camera.transform
             let buffer = frame.capturedImage
             let presentationTime = CMTime(seconds: ts, preferredTimescale: 1000000)
 
-            // 1. Lưu SLAM (Chạy trên queue ngầm cho nhẹ máy)
             dataQueue.async { [weak self] in
                 let pos = mat.columns.3
                 let point: [String: Any] = [
@@ -104,25 +100,21 @@ class ARWhamManager: NSObject, ARSessionDelegate, ObservableObject {
                 DispatchQueue.main.async { self?.slmData.append(point) }
             }
 
-            // 2. Ghi Video (Bảo vệ nghiêm ngặt bằng Status Check)
             guard let writer = assetWriter,
                   let input = assetWriterInput,
                   let adaptor = pixelBufferAdaptor else { return }
-            
-            // CHỐT CHẶN 1: Phải ở trạng thái .writing mới được làm việc
+
             if writer.status == .writing {
-                // CHỐT CHẶN 2: Khởi tạo Session ngay frame đầu tiên
                 if !isReadyToRecord {
                     writer.startSession(atSourceTime: presentationTime)
                     isReadyToRecord = true
                 }
-                
-                // CHỐT CHẶN 3: Chỉ ghi khi input sẵn sàng
+
                 if input.isReadyForMoreMediaData {
                     adaptor.append(buffer, withPresentationTime: presentationTime)
                 }
             } else if writer.status == .failed {
-                print("❌ Writer Failed: \(writer.error?.localizedDescription ?? "Unknown")")
+                print("Writer Failed: \(writer.error?.localizedDescription ?? "Unknown")")
             }
         }
     }
@@ -130,40 +122,37 @@ class ARWhamManager: NSObject, ARSessionDelegate, ObservableObject {
     private func setupWriter(id: UUID) {
         let url = getURL(id: id, ext: "mp4")
         try? FileManager.default.removeItem(at: url)
-        
+
         do {
             assetWriter = try AVAssetWriter(outputURL: url, fileType: .mp4)
-            
-            // Thiết lập cấu hình Video 720p chuẩn cho WHAM
+
             let settings: [String: Any] = [
                 AVVideoCodecKey: AVVideoCodecType.h264,
                 AVVideoWidthKey: 1920,
                 AVVideoHeightKey: 1440
             ]
-            
+
             assetWriterInput = AVAssetWriterInput(mediaType: .video, outputSettings: settings)
             assetWriterInput?.transform = CGAffineTransform(rotationAngle: .pi / 2)
-            assetWriterInput?.expectsMediaDataInRealTime = true // Quan trọng cho ARKit
-            
+            assetWriterInput?.expectsMediaDataInRealTime = true
+
             if let input = assetWriterInput {
-                // Thêm Adaptor để "bơm" frame vào
                 pixelBufferAdaptor = AVAssetWriterInputPixelBufferAdaptor(
                     assetWriterInput: input,
                     sourcePixelBufferAttributes: [
                         kCVPixelBufferPixelFormatTypeKey as String: Int(kCVPixelFormatType_32BGRA)
                     ]
                 )
-                
+
                 if assetWriter!.canAdd(input) {
                     assetWriter!.add(input)
                 }
             }
-            
-            // Kích hoạt ngay lập tức
+
             assetWriter?.startWriting()
-            
+
         } catch {
-            print("❌ Setup Writer thất bại: \(error)")
+            print("Setup Writer thất bại: \(error)")
         }
     }
 

@@ -8,17 +8,14 @@
 import SwiftUI
 
 struct MainCameraView: View {
-    // Chuyển sang dùng ARWhamManager để lấy dữ liệu SLAM
     @StateObject var manager = ARWhamManager()
     @State private var isShowingLibrary = false
 
     var body: some View {
         ZStack {
-            // Lớp nền ARKit - Cửa sổ nhìn vào không gian 3D
             ARViewContainer(session: manager.session)
                 .ignoresSafeArea()
-            
-            // Lớp Overlay: Timer (Chỉ hiện khi đang quay)
+
             if manager.isRecording {
                 VStack {
                     Text(manager.formattedTime)
@@ -33,12 +30,9 @@ struct MainCameraView: View {
                 }
             }
 
-            // Lớp Overlay: Control Panel (Nút Lib và Nút Record)
             VStack {
                 Spacer()
-                
-                // Trạng thái ARKit (Giúp mày biết khi nào SLAM đã sẵn sàng)
-                // WHAM cần World Tracking ổn định để không trượt chân
+
                 if !manager.isRecording {
                     Text("Di chuyển iPhone để calibrate SLAM...")
                         .font(.caption)
@@ -50,7 +44,6 @@ struct MainCameraView: View {
                 }
 
                 HStack(spacing: 40) {
-                    // Nút mở Thư viện (Hiện ảnh của video mới nhất)
                     Button(action: { isShowingLibrary = true }) {
                         Group {
                             if let thumb = manager.lastThumbnail {
@@ -66,8 +59,7 @@ struct MainCameraView: View {
                         .overlay(RoundedRectangle(cornerRadius: 12).stroke(Color.white, lineWidth: 2))
                         .clipped()
                     }
-                    
-                    // Nút Record chính giữa
+
                     Button(action: {
                         manager.toggleRecording()
                     }) {
@@ -75,7 +67,7 @@ struct MainCameraView: View {
                             Circle()
                                 .stroke(Color.white, lineWidth: 4)
                                 .frame(width: 80, height: 80)
-                            
+
                             if manager.isRecording {
                                 RoundedRectangle(cornerRadius: 6)
                                     .fill(Color.red)
@@ -87,8 +79,7 @@ struct MainCameraView: View {
                             }
                         }
                     }
-                    
-                    // Nút Reset Tracking (Phòng trường hợp SLAM bị ngáo)
+
                     Button(action: { manager.resetTracking() }) {
                         Image(systemName: "arrow.counterclockwise.circle")
                             .font(.system(size: 30))
@@ -98,7 +89,6 @@ struct MainCameraView: View {
                 .padding(.bottom, 40)
             }
         }
-        // Vuốt lên để xem thư viện video đã quay
         .sheet(isPresented: $isShowingLibrary, onDismiss: { manager.resume() }) {
             VideoLibraryView()
                 .onAppear{ manager.pause() }
@@ -106,7 +96,6 @@ struct MainCameraView: View {
     }
 }
 
-// Cấu trúc mặc định của file ContentView trong Xcode
 struct ContentView: View {
     var body: some View {
         MainCameraView()

@@ -9,24 +9,22 @@ import AVFoundation
 // MARK: - Core Data Model
 struct VideoModel: Identifiable, Hashable {
     let id: UUID
-    let url: URL // The .mp4 file
-    
-    // The raw AR tracking data you recorded
+    let url: URL
+
     var gyroJsonURL: URL {
         let docs = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0]
         return docs.appendingPathComponent("\(url.deletingPathExtension().lastPathComponent).json")
     }
-    
-    // The output from our AI model
+
     var whamOutputURL: URL {
         let docs = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0]
         return docs.appendingPathComponent("\(url.deletingPathExtension().lastPathComponent)_wham_output.json")
     }
-    
+
     var hasGyro: Bool {
         return FileManager.default.fileExists(atPath: gyroJsonURL.path)
     }
-    
+
     var isAnalyzed: Bool {
         return FileManager.default.fileExists(atPath: whamOutputURL.path)
     }
@@ -36,7 +34,7 @@ struct VideoModel: Identifiable, Hashable {
 struct VideoLibraryView: View {
     @State private var videos: [VideoModel] = []
     @Environment(\.dismiss) var dismiss
-    
+
     var body: some View {
         NavigationView {
             List(videos) { video in
@@ -45,12 +43,12 @@ struct VideoLibraryView: View {
                         VideoThumbnailView(url: video.url)
                             .frame(width: 80, height: 60)
                             .cornerRadius(8)
-                        
+
                         VStack(alignment: .leading, spacing: 4) {
                             Text(video.url.lastPathComponent)
                                 .font(.system(size: 14, weight: .bold, design: .monospaced))
                                 .lineLimit(1)
-                            
+
                             HStack {
                                 if video.hasGyro {
                                     Text("AR: ✅")
@@ -61,7 +59,7 @@ struct VideoLibraryView: View {
                                         .font(.caption2)
                                         .foregroundColor(.red)
                                 }
-                                
+
                                 if video.isAnalyzed {
                                     Text("| WHAM: ✅")
                                         .font(.caption2)
@@ -69,7 +67,7 @@ struct VideoLibraryView: View {
                                 }
                             }
                         }
-                        
+
                         Spacer()
                     }
                 }
@@ -81,19 +79,19 @@ struct VideoLibraryView: View {
             .onAppear(perform: loadVideos)
         }
     }
-    
+
     func loadVideos() {
         let docs = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0]
         do {
             let files = try FileManager.default.contentsOfDirectory(at: docs, includingPropertiesForKeys: [.creationDateKey], options: .skipsHiddenFiles)
-            
+
             let sortedVideoURLs = files.filter { $0.pathExtension == "mp4" }
                 .sorted { (url1, url2) -> Bool in
                     let date1 = (try? url1.resourceValues(forKeys: [.creationDateKey]))?.creationDate ?? .distantPast
                     let date2 = (try? url2.resourceValues(forKeys: [.creationDateKey]))?.creationDate ?? .distantPast
                     return date1 > date2
                 }
-            
+
             self.videos = sortedVideoURLs.map { url in
                 let idString = url.deletingPathExtension().lastPathComponent
                 return VideoModel(id: UUID(uuidString: idString) ?? UUID(), url: url)
@@ -127,7 +125,7 @@ struct VideoThumbnailView: View {
         let gen = AVAssetImageGenerator(asset: asset)
         gen.appliesPreferredTrackTransform = true
         let time = CMTime(seconds: 1, preferredTimescale: 60)
-        
+
         gen.generateCGImagesAsynchronously(forTimes: [NSValue(time: time)]) { _, cgImage, _, _, _ in
             if let cgImage = cgImage {
                 DispatchQueue.main.async {
