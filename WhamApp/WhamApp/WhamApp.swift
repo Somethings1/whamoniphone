@@ -11,7 +11,17 @@ import SwiftUI
 struct WhamApp: App {
     var body: some Scene {
         WindowGroup {
-            MainCameraView()
+            TabView {
+                MainCameraView()
+                    .tabItem {
+                        Label("AR Camera", systemImage: "camera.viewfinder")
+                    }
+                
+                OfflineProcessView()
+                    .tabItem {
+                        Label("Video Thầy", systemImage: "folder.badge.gearshape")
+                    }
+            }
         }
     }
 }

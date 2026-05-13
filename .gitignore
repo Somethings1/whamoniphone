@@ -1,0 +1,3 @@
+*.mlpackage
+WhamApp/WhamApp.xcodeproj
+*.DS_Store

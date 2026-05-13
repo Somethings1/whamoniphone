@@ -26,8 +26,9 @@ class WhamAnalyzer: ObservableObject {
 
         do {
             try await Task.detached(priority: .userInitiated) {
-                let gyroData = try self.loadGyroData(from: gyroJsonURL)
+                let gyroData = (try? self.loadGyroData(from: gyroJsonURL)) ?? []
                 let asset = AVURLAsset(url: videoURL)
+                let estimatedFrames = gyroData.isEmpty ? 500 : gyroData.count
                 let reader = try AVAssetReader(asset: asset)
                 let tracks = try await asset.loadTracks(withMediaType: .video)
                 guard let track = tracks.first else { return }
@@ -115,7 +116,7 @@ class WhamAnalyzer: ObservableObject {
                     }
 
                     frameIdx += 1
-                    let currentProgress = (Double(frameIdx) / Double(max(gyroData.count, 1))) * 0.5
+                    let currentProgress = (Double(frameIdx) / Double(max(estimatedFrames, 1))) * 0.5
                     await MainActor.run { self.progress = currentProgress }
                 }
 
