@@ -2,4 +2,6 @@
 *.pt
 *.mlpackage
 *.pth
+*.json
+*.pkl
 
